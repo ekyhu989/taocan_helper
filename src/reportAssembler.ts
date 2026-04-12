@@ -198,13 +198,13 @@ export function assembleReport(
   productResult: ProductListResult,
 ): ReportResult {
   const {
-    unitName,
+    unitName = '',
     scene,
     headCount,
     totalBudget,
     fundSource,
-    department,
-    applicant,
+    department = '',
+    applicant = '',
     year = new Date().getFullYear(),
     festival,
   } = userInput;

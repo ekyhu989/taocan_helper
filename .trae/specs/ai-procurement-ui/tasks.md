@@ -1,6 +1,6 @@
 # AI采购方案生成工具 - 界面开发 - The Implementation Plan (Decomposed and Prioritized Task List)
 
-## [ ] Task 1: 项目基础结构与 Mock 数据准备
+## [x] Task 1: 项目基础结构与 Mock 数据准备
 - **Priority**: P0
 - **Depends On**: None
 - **Description**: 
@@ -13,7 +13,7 @@
   - `human-judgement` TR-1.2: Mock 数据符合政务系统规范，术语使用正确
 - **Notes**: 确保 Mock 数据包含人均预算超过 500 元的测试场景
 
-## [ ] Task 2: 基础信息录入页组件实现
+## [x] Task 2: 基础信息录入页组件实现
 - **Priority**: P0
 - **Depends On**: Task 1
 - **Description**: 
@@ -27,7 +27,7 @@
   - `human-judgement` TR-2.3: 界面风格符合政务系统规范
 - **Notes**: 使用 Mock 数据预设表单值，展示超标和不超标两种场景
 
-## [ ] Task 3: 采购方案预览页组件实现
+## [x] Task 3: 采购方案预览页组件实现
 - **Priority**: P0
 - **Depends On**: Task 1
 - **Description**: 
@@ -55,16 +55,36 @@
   - `human-judgement` TR-4.3: 术语使用正确，无禁用词汇
 - **Notes**: 参考 docs/公文模板库.md 中的格式
 
-## [ ] Task 5: 界面整体优化与统一
-- **Priority**: P1
+## [ ] Task 5: 主应用与视图切换实现
+- **Priority**: P0
 - **Depends On**: Task 2, Task 3, Task 4
 - **Description**: 
-  - 统一三个页面的视觉风格
+  - 创建主 App 组件，实现单页应用视图切换逻辑
+  - 首页显示基础信息录入页（BasicInfoForm）
+  - 添加"生成方案"按钮到表单页底部
+  - 实现表单轻量级校验：检查人数和总预算是否为空
+  - 校验通过后，切换到预览与报告页，同时显示采购方案预览和采购申请报告
+  - 为空时显示提示"请填写完整信息"
+- **Acceptance Criteria Addressed**: AC-7, AC-8
+- **Test Requirements**:
+  - `human-judgement` TR-5.1: 首页正确显示基础信息录入表单
+  - `human-judgement` TR-5.2: 点击"生成方案"且校验通过后，页面切换到预览与报告页
+  - `human-judgement` TR-5.3: 人数或总预算为空时，显示"请填写完整信息"提示
+  - `human-judgement` TR-5.4: 预览与报告页同时显示采购方案预览和采购申请报告
+- **Notes**: 使用 React state 管理视图切换状态
+
+## [ ] Task 6: 界面整体优化与统一
+- **Priority**: P1
+- **Depends On**: Task 5
+- **Description**: 
+  - 统一所有页面的视觉风格
   - 优化间距、字体、颜色等设计细节
   - 确保响应式布局在桌面端显示良好
-- **Acceptance Criteria Addressed**: AC-1, AC-3, AC-5
+  - 优化页面切换过渡效果
+- **Acceptance Criteria Addressed**: AC-1, AC-3, AC-5, AC-7
 - **Test Requirements**:
-  - `human-judgement` TR-5.1: 三个页面视觉风格统一
-  - `human-judgement` TR-5.2: 界面简洁专业，符合政务系统规范
-  - `human-judgement` TR-5.3: 桌面端布局展示良好
+  - `human-judgement` TR-6.1: 所有页面视觉风格统一
+  - `human-judgement` TR-6.2: 界面简洁专业，符合政务系统规范
+  - `human-judgement` TR-6.3: 桌面端布局展示良好
+  - `human-judgement` TR-6.4: 页面切换流畅自然
 - **Notes**: 可参考政务系统常见设计风格（简洁、蓝白为主）

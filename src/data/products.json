@@ -1,227 +1,370 @@
 [
   {
-    "id": 1,
+    "id": "p001",
     "name": "精选月饼礼盒",
+    "unit": "盒",
     "price": 89.9,
     "category": "食品",
     "image_url": "https://example.com/images/mooncake.jpg",
     "description": "传统广式月饼，包含双黄莲蓉、豆沙、五仁三种口味",
-    "is_832_product": true
+    "scenes": [
+      "holiday"
+    ],
+    "is832": true,
+    "category_tag": "食品"
   },
   {
-    "id": 2,
+    "id": "p002",
     "name": "坚果大礼包",
+    "unit": "盒",
     "price": 69.5,
     "category": "食品",
     "image_url": "https://example.com/images/nuts.jpg",
     "description": "包含核桃、杏仁、腰果等多种坚果，独立小包装",
-    "is_832_product": false
+    "scenes": [
+      "holiday",
+      "activity"
+    ],
+    "is832": false,
+    "category_tag": "食品"
   },
   {
-    "id": 3,
+    "id": "p003",
     "name": "优质大米",
-    "price": 45.0,
+    "unit": "袋",
+    "price": 45,
     "category": "食品",
     "image_url": "https://example.com/images/rice.jpg",
     "description": "东北五常大米，5kg装，真空包装",
-    "is_832_product": true
+    "scenes": [
+      "holiday",
+      "activity",
+      "care"
+    ],
+    "is832": true,
+    "category_tag": "食品"
   },
   {
-    "id": 4,
+    "id": "p004",
     "name": "蜂蜜礼盒",
+    "unit": "盒",
     "price": 59.9,
     "category": "食品",
     "image_url": "https://example.com/images/honey.jpg",
     "description": "纯天然百花蜜，500g装，附赠精美勺子",
-    "is_832_product": true
+    "scenes": [
+      "holiday",
+      "care"
+    ],
+    "is832": true,
+    "category_tag": "食品"
   },
   {
-    "id": 5,
+    "id": "p005",
     "name": "洗护套装",
-    "price": 79.0,
+    "unit": "套",
+    "price": 79,
     "category": "生活用品",
     "image_url": "https://example.com/images/care.jpg",
     "description": "包含洗发水、护发素、沐浴露各500ml",
-    "is_832_product": false
+    "scenes": [
+      "activity",
+      "care"
+    ],
+    "is832": false,
+    "category_tag": "日用品"
   },
   {
-    "id": 6,
+    "id": "p006",
     "name": "茶叶礼盒",
-    "price": 99.0,
+    "unit": "盒",
+    "price": 99,
     "category": "食品",
     "image_url": "https://example.com/images/tea.jpg",
     "description": "精选龙井茶，200g装，附赠茶具",
-    "is_832_product": true
+    "scenes": [
+      "holiday",
+      "care"
+    ],
+    "is832": true,
+    "category_tag": "食品"
   },
   {
-    "id": 7,
+    "id": "p007",
     "name": "水果礼篮",
-    "price": 129.0,
+    "unit": "篮",
+    "price": 129,
     "category": "食品",
     "image_url": "https://example.com/images/fruit.jpg",
     "description": "时令水果组合，包含苹果、橙子、葡萄等",
-    "is_832_product": false
+    "scenes": [
+      "holiday",
+      "care"
+    ],
+    "is832": false,
+    "category_tag": "食品"
   },
   {
-    "id": 8,
+    "id": "p008",
     "name": "牛奶礼盒",
-    "price": 55.0,
+    "unit": "箱",
+    "price": 55,
     "category": "食品",
     "image_url": "https://example.com/images/milk.jpg",
     "description": "纯牛奶12盒装，每盒250ml",
-    "is_832_product": true
+    "scenes": [
+      "holiday",
+      "activity",
+      "care"
+    ],
+    "is832": true,
+    "category_tag": "食品"
   },
   {
-    "id": 9,
+    "id": "p009",
     "name": "毛巾套装",
+    "unit": "套",
     "price": 49.9,
     "category": "生活用品",
     "image_url": "https://example.com/images/towel.jpg",
     "description": "包含面巾、浴巾各一条，纯棉材质",
-    "is_832_product": false
+    "scenes": [
+      "activity",
+      "care"
+    ],
+    "is832": false,
+    "category_tag": "日用品"
   },
   {
-    "id": 10,
+    "id": "p010",
     "name": "橄榄油",
-    "price": 89.0,
+    "unit": "瓶",
+    "price": 89,
     "category": "食品",
     "image_url": "https://example.com/images/oil.jpg",
     "description": "特级初榨橄榄油，500ml装",
-    "is_832_product": true
+    "scenes": [
+      "holiday",
+      "care"
+    ],
+    "is832": true,
+    "category_tag": "食品"
   },
   {
-    "id": 11,
+    "id": "p011",
     "name": "保温杯",
-    "price": 65.0,
+    "unit": "个",
+    "price": 65,
     "category": "生活用品",
     "image_url": "https://example.com/images/cup.jpg",
     "description": "304不锈钢保温杯，500ml容量",
-    "is_832_product": false
+    "scenes": [
+      "activity"
+    ],
+    "is832": false,
+    "category_tag": "日用品"
   },
   {
-    "id": 12,
+    "id": "p012",
     "name": "杂粮礼盒",
-    "price": 75.0,
+    "unit": "盒",
+    "price": 75,
     "category": "食品",
     "image_url": "https://example.com/images/grain.jpg",
     "description": "包含小米、红豆、绿豆等多种杂粮",
-    "is_832_product": true
+    "scenes": [
+      "holiday",
+      "care"
+    ],
+    "is832": true,
+    "category_tag": "食品"
   },
   {
-    "id": 13,
+    "id": "p013",
     "name": "香皂礼盒",
+    "unit": "盒",
     "price": 39.9,
     "category": "生活用品",
     "image_url": "https://example.com/images/soap.jpg",
     "description": "天然植物香皂，6块装，多种香味",
-    "is_832_product": false
+    "scenes": [
+      "activity",
+      "care"
+    ],
+    "is832": false,
+    "category_tag": "日用品"
   },
   {
-    "id": 14,
+    "id": "p014",
     "name": "山茶油",
-    "price": 99.0,
+    "unit": "瓶",
+    "price": 99,
     "category": "食品",
     "image_url": "https://example.com/images/tea-oil.jpg",
     "description": "纯天然山茶油，500ml装",
-    "is_832_product": true
+    "scenes": [
+      "holiday"
+    ],
+    "is832": true,
+    "category_tag": "食品"
   },
   {
-    "id": 15,
+    "id": "p015",
     "name": "雨伞",
-    "price": 45.0,
+    "unit": "把",
+    "price": 45,
     "category": "生活用品",
     "image_url": "https://example.com/images/umbrella.jpg",
     "description": "自动开合晴雨伞，轻便便携",
-    "is_832_product": false
+    "scenes": [
+      "activity"
+    ],
+    "is832": false,
+    "category_tag": "日用品"
   },
   {
-    "id": 16,
+    "id": "p016",
     "name": "蜂蜜柚子茶",
-    "price": 35.0,
+    "unit": "瓶",
+    "price": 35,
     "category": "食品",
     "image_url": "https://example.com/images/honey-tea.jpg",
     "description": "天然蜂蜜柚子茶，500g装",
-    "is_832_product": true
+    "scenes": [
+      "activity",
+      "care"
+    ],
+    "is832": true,
+    "category_tag": "食品"
   },
   {
-    "id": 17,
+    "id": "p017",
     "name": "毛巾礼盒",
+    "unit": "盒",
     "price": 59.9,
     "category": "生活用品",
     "image_url": "https://example.com/images/towel-box.jpg",
     "description": "包含三条不同颜色的纯棉毛巾",
-    "is_832_product": false
+    "scenes": [
+      "care"
+    ],
+    "is832": false,
+    "category_tag": "日用品"
   },
   {
-    "id": 18,
+    "id": "p018",
     "name": "黑木耳",
-    "price": 49.0,
+    "unit": "袋",
+    "price": 49,
     "category": "食品",
     "image_url": "https://example.com/images/mushroom.jpg",
     "description": "东北黑木耳，200g装，干货",
-    "is_832_product": true
+    "scenes": [
+      "holiday",
+      "care"
+    ],
+    "is832": true,
+    "category_tag": "食品"
   },
   {
-    "id": 19,
+    "id": "p019",
     "name": "护手霜",
+    "unit": "支",
     "price": 29.9,
     "category": "生活用品",
     "image_url": "https://example.com/images/hand-cream.jpg",
     "description": "滋润型护手霜，100ml装",
-    "is_832_product": false
+    "scenes": [
+      "care"
+    ],
+    "is832": false,
+    "category_tag": "日用品"
   },
   {
-    "id": 20,
+    "id": "p020",
     "name": "红枣礼盒",
-    "price": 65.0,
+    "unit": "盒",
+    "price": 65,
     "category": "食品",
     "image_url": "https://example.com/images/jujube.jpg",
     "description": "新疆大枣，500g装，独立小包装",
-    "is_832_product": true
+    "scenes": [
+      "holiday",
+      "care"
+    ],
+    "is832": true,
+    "category_tag": "食品"
   },
   {
-    "id": 21,
+    "id": "p021",
     "name": "保温饭盒",
-    "price": 79.0,
+    "unit": "个",
+    "price": 79,
     "category": "生活用品",
     "image_url": "https://example.com/images/lunch-box.jpg",
     "description": "双层不锈钢保温饭盒，1000ml容量",
-    "is_832_product": false
+    "scenes": [
+      "activity"
+    ],
+    "is832": false,
+    "category_tag": "日用品"
   },
   {
-    "id": 22,
+    "id": "p022",
     "name": "核桃仁",
-    "price": 55.0,
+    "unit": "袋",
+    "price": 55,
     "category": "食品",
     "image_url": "https://example.com/images/walnut.jpg",
     "description": "新疆核桃仁，500g装",
-    "is_832_product": true
+    "scenes": [
+      "holiday",
+      "activity"
+    ],
+    "is832": true,
+    "category_tag": "食品"
   },
   {
-    "id": 23,
+    "id": "p023",
     "name": "牙膏套装",
+    "unit": "套",
     "price": 39.9,
     "category": "生活用品",
     "image_url": "https://example.com/images/toothpaste.jpg",
     "description": "含氟牙膏，3支装，每支180g",
-    "is_832_product": false
+    "scenes": [
+      "activity"
+    ],
+    "is832": false,
+    "category_tag": "日用品"
   },
   {
-    "id": 24,
+    "id": "p024",
     "name": "枸杞",
-    "price": 45.0,
+    "unit": "袋",
+    "price": 45,
     "category": "食品",
     "image_url": "https://example.com/images/goji.jpg",
     "description": "宁夏枸杞，200g装",
-    "is_832_product": true
+    "scenes": [
+      "holiday",
+      "care"
+    ],
+    "is832": true,
+    "category_tag": "食品"
   },
   {
-    "id": 25,
+    "id": "p025",
     "name": "便携水杯",
-    "price": 59.0,
+    "unit": "个",
+    "price": 59,
     "category": "生活用品",
     "image_url": "https://example.com/images/water-bottle.jpg",
     "description": "运动水杯，500ml容量，防漏设计",
-    "is_832_product": false
+    "scenes": [
+      "activity"
+    ],
+    "is832": false,
+    "category_tag": "日用品"
   }
 ]

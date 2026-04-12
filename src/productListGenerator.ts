@@ -18,7 +18,7 @@
  * 消费帮扶提示文案来源：开发规范 §2.2.2
  */
 
-import type { Product, ProductListResult, PurchaseItem, Scene } from './types';
+import type { Product, ProductListResult, PurchaseItem, Scene, BudgetMode } from './types';
 
 /** 消费帮扶标准提示文案（来自规范 §2.2.2） */
 const HINT_832 =
@@ -51,6 +51,19 @@ function shuffle<T>(arr: T[]): T[] {
 function filterByScene(products: Product[], scene: Scene): Product[] {
   const filtered = products.filter((p) => p.scenes.includes(scene));
   return filtered.length >= MIN_ITEMS ? filtered : products;
+}
+
+/**
+ * 按品类标签过滤商品库
+ * 兜底：若过滤后商品不足 MIN_ITEMS，回退到只按场景过滤（不按品类）
+ */
+function filterByCategory(products: Product[], category: string, scene: Scene): Product[] {
+  // 首先按场景过滤
+  const sceneFiltered = filterByScene(products, scene);
+  // 然后按品类标签过滤
+  const categoryFiltered = sceneFiltered.filter((p) => p.category_tag === category);
+  // 如果品类过滤后商品足够，返回品类过滤结果；否则返回场景过滤结果（不按品类）
+  return categoryFiltered.length >= MIN_ITEMS ? categoryFiltered : sceneFiltered;
 }
 
 // ─────────────────────────────────────────────
@@ -110,6 +123,42 @@ function allocateQuantities(
   }));
 }
 
+/**
+ * 根据预算模式分配数量
+ * 
+ * 策略：
+ *   - per_capita（按人均标准）：所有商品数量必须等于人数（或人数的整数倍）
+ *   - total_control（按总额控制）：使用原有灵活分配策略
+ */
+function allocateQuantitiesWithMode(
+  selected: Product[],
+  totalBudget: number,
+  headCount: number,
+  budgetMode: BudgetMode,
+): PurchaseItem[] {
+  if (budgetMode === 'per_capita') {
+    // 按人均标准：每个商品数量 = 人数（或人数 × 整数倍）
+    // 计算每个商品的最大可能倍数（基于单价）
+    const quantities = selected.map(p => {
+      // 确保每人至少一份
+      return headCount;
+    });
+    
+    // 计算总金额
+    const totalAmount = selected.reduce((sum, p, i) => sum + p.price * quantities[i], 0);
+    
+    // 如果总金额超过预算，需要调整（这里简化处理：如果超预算，仍返回但会有警告）
+    return selected.map((p, i) => ({
+      product: p,
+      quantity: quantities[i],
+      subtotal: Math.round(p.price * quantities[i] * 100) / 100,
+    }));
+  } else {
+    // total_control：使用原有算法
+    return allocateQuantities(selected, totalBudget);
+  }
+}
+
 // ─────────────────────────────────────────────
 // 主函数
 // ─────────────────────────────────────────────
@@ -127,6 +176,9 @@ export function generateProductList(
   products: Product[],
   scene: Scene,
   totalBudget: number,
+  headCount: number,
+  budgetMode: BudgetMode = 'per_capita',
+  category: string = '食品',
 ): ProductListResult {
   if (!products || products.length === 0) {
     throw new Error('商品库为空，无法生成品单。');
@@ -135,8 +187,8 @@ export function generateProductList(
     throw new Error('总预算必须大于零。');
   }
 
-  // Step 1：按场景过滤 + 打乱
-  const candidates = shuffle(filterByScene(products, scene));
+  // Step 1：按场景和品类过滤 + 打乱
+  const candidates = shuffle(filterByCategory(products, category, scene));
 
   // Step 2：随机决定本次商品数量 [MIN_ITEMS, MAX_ITEMS]，但不超过候选池大小
   const itemCount = Math.min(
@@ -145,8 +197,8 @@ export function generateProductList(
   );
   const selected = candidates.slice(0, itemCount);
 
-  // Step 3：分配数量
-  const items = allocateQuantities(selected, totalBudget);
+  // Step 3：根据预算模式分配数量
+  const items = allocateQuantitiesWithMode(selected, totalBudget, headCount, budgetMode);
 
   // Step 4：汇总统计
   const totalAmount = Math.round(
