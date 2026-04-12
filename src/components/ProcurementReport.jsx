@@ -1,11 +1,20 @@
 import React from 'react';
 import mockData from '../data/mockData';
 
-const ProcurementReport = ({ report, isExample = false }) => {
+const ProcurementReport = ({ 
+  report, 
+  isExample = false, 
+  onExportWord, 
+  onExportPDF, 
+  showExportButtons = false 
+}) => {
   // 如果是示例模式，使用示例公文；否则使用真实报告
   const reportContent = isExample ? mockData.exampleReport : (report || mockData.purchaseReport);
   const reportLines = reportContent.split('\n');
   const title = isExample ? '标准公文示例' : '采购申请报告';
+  
+  // 为PDF导出生成唯一ID
+  const reportId = isExample ? 'example-report-content' : 'generated-report-content';
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -18,7 +27,7 @@ const ProcurementReport = ({ report, isExample = false }) => {
         )}
       </div>
       
-      <div className="bg-white border border-gray-200 rounded-lg p-8 font-sans">
+      <div id={reportId} className="bg-white border border-gray-200 rounded-lg p-8 font-sans">
         <div className="whitespace-pre-line text-gray-800 leading-relaxed">
           {reportLines.map((line, index) => {
             // 红头文件格式处理 - 示例公文去掉红头，统一使用普通格式
@@ -113,6 +122,42 @@ const ProcurementReport = ({ report, isExample = false }) => {
         </div>
       </div>
       
+      {/* 导出按钮区域 */}
+      {showExportButtons && !isExample && (
+        <div className="mt-8 p-6 bg-gray-50 border border-gray-200 rounded-lg">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-1">导出公文</h3>
+              <p className="text-gray-600 text-sm">
+                将公文导出为Word或PDF格式，便于打印、存档或提交
+              </p>
+            </div>
+            <div className="flex gap-4">
+              <button
+                onClick={onExportWord}
+                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md"
+              >
+                <span>📄</span>
+                <span>导出Word</span>
+              </button>
+              <button
+                onClick={onExportPDF}
+                className="flex items-center gap-2 px-6 py-3 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors duration-200 shadow-md"
+              >
+                <span>📑</span>
+                <span>导出PDF</span>
+              </button>
+            </div>
+          </div>
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            <p className="text-gray-500 text-xs">
+              导出的文件名为：<code className="bg-gray-100 px-2 py-1 rounded text-gray-800">{'{单位名称}_{年份}{节日/场景}_采购申请报告.{docx/pdf}'}</code>
+            </p>
+          </div>
+        </div>
+      )}
+      
+      {/* 示例提示 */}
       {isExample && (
         <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
           <p className="text-blue-700 text-sm">

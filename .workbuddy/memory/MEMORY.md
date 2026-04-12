@@ -112,6 +112,43 @@
   - 解决SSH主机密钥验证问题
   - 项目已完全同步到远程仓库
 
+### 第八阶段: 品单手动调整功能 H1 (已完成 - 2026-04-12)
+- **productListGenerator.ts**: 新增 `recalculateSolution` 辅助函数
+- **App.jsx**: 新增 isAdjusted/originalProductListResult 状态 + 5个回调函数
+- **SolutionPreview.jsx**: 完全重写，支持编辑数量/删除/添加商品/恢复原始方案
+- **UI增强**: 预算使用率进度条、人均超标警告、超预算红色提示
+- **文件修复**: ProductManager.jsx→.tsx, ProductForm.jsx→.tsx（用了TS语法但后缀错误）
+
+### 第九阶段: Word/PDF导出功能 H2 (已完成 - 2026-04-12)
+- **核心功能实现**：为公文生成页增加Word(.docx)和PDF(.pdf)导出功能
+- **新增文件**：
+  - `src/utils/exportUtils.ts` - 完整的Word/PDF导出工具模块
+- **修改文件**：
+  - `src/App.jsx` - 添加导出处理函数和导入
+  - `src/components/ProcurementReport.jsx` - 添加导出按钮UI和回调
+- **Word导出特性**：
+  - 使用`docx`库生成真正的Word文档（非HTML转存）
+  - 文档包含正确的标题样式（标题居中、加粗）
+  - 正文段落格式正确（首行缩进、行间距）
+  - 数字列表项格式正确，落款部分右对齐
+  - 温馨提示部分使用特殊背景色和边框标识
+- **PDF导出特性**：
+  - 使用`html2pdf.js`基于现有预览HTML生成PDF
+  - PDF保留现有CSS样式（颜色、字体、布局）
+  - 页边距合理（20mm），内容不溢出页面边界
+  - 支持分页，长文档自动分页
+- **文件名规范**：
+  - 格式：`{单位名称}_{年份}{节日/场景}_采购申请报告.{docx/pdf}`
+  - 自动清理单位名称中的空格和特殊字符，使用下划线连接
+- **导出按钮UI**：
+  - 公文预览区域增加"导出Word"（蓝色）和"导出PDF"（红色）按钮
+  - 仅在生成正式公文后显示导出按钮
+  - 按钮样式：使用Tailwind CSS，主色调蓝色系，图标使用Emoji
+- **合规性**：
+  - 导出文件中的术语保持合规（采购/方案/预算/物资）
+  - 不包含任何电商或交易相关描述
+  - 保持公文正式格式，符合政府采购规范
+
 ## 技术实现详情
 ### 数据流
 1. **基础信息录入**：用户填写采购场景、人数、总预算等6个字段 → BasicInfoForm更新solutionFormData → App.jsx状态更新
@@ -123,6 +160,7 @@
 ### 关键函数
 - `validateBudget(totalBudget, headCount)`: 返回校验结果与人均预算
 - `generateProductList(products, scene, totalBudget)`: 返回品单生成结果（items, totalAmount, platform832Amount等）
+- `recalculateSolution(items, totalBudget)`: 重新计算品单汇总（手动调整后使用）
 - `assembleReport(userInput, productResult)`: 返回报告结果（title, body, sceneLabel）
 
 ## 后续建议
@@ -133,5 +171,5 @@
 5. **部署优化**: 配置Docker容器化部署与环境变量
 
 ---
-*最后更新: 2026-04-12 (第七阶段完成)*
+*最后更新: 2026-04-12 (第九阶段H2完成)*
 *维护者: 高级全栈开发工程师*

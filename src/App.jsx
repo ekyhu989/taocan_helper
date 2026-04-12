@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BasicInfoForm from './components/BasicInfoForm';
 import SolutionPreview from './components/SolutionPreview';
 import ProcurementReport from './components/ProcurementReport';
+import ProductManager from './components/ProductManager';
+import HistoryManager from './components/HistoryManager';
 import mockData from './data/mockData';
-import productsData from './data/products.json';
-import { generateProductList } from './productListGenerator';
+import { loadProducts } from './utils/productStorage';
+import { generateProductList, recalculateSolution } from './productListGenerator';
 import { assembleReport } from './reportAssembler';
 import { validateBudget } from './budgetValidator';
+import { exportToWord, exportToPDF, generateExportFileName } from './utils/exportUtils';
+import { saveHistory } from './utils/historyStorage';
 
 function App() {
   // 当前视图：'solution'（方案生成页）、'report'（公文生成页）
   const [currentView, setCurrentView] = useState('solution');
+  const [showProductManager, setShowProductManager] = useState(false);
+  const [productsData, setProductsData] = useState([]);
+  
+  useEffect(() => {
+    const products = loadProducts();
+    setProductsData(products);
+  }, [showProductManager]);
   
   // 方案生成页表单数据（第一步） - 只包含6个字段
   const [solutionFormData, setSolutionFormData] = useState({
@@ -38,6 +49,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [isExampleMode, setIsExampleMode] = useState(true); // 是否显示示例数据
   const [isReportGenerated, setIsReportGenerated] = useState(false); // 公文是否已生成
+  const [isAdjusted, setIsAdjusted] = useState(false); // 品单是否被手动调整
+  const [originalProductListResult, setOriginalProductListResult] = useState(null); // 原始自动生成结果（用于重置）
+  const [showHistory, setShowHistory] = useState(false); // 历史方案面板
 
   // 处理方案表单数据变化
   const handleSolutionFormDataChange = (data) => {
@@ -80,6 +94,8 @@ function App() {
       
       // 更新状态
       setProductListResult(productResult);
+      setOriginalProductListResult(productResult); // 保存原始结果（用于"恢复自动生成"）
+      setIsAdjusted(false); // 重置手动调整标记
       setIsExampleMode(false); // 切换到真实数据模式
       setErrorMessage(''); // 清空错误信息
     } catch (err) {
@@ -129,11 +145,92 @@ function App() {
       setReportResult(report);
       setIsReportGenerated(true);
       setCurrentView('report');
+
+      // ─── 自动保存到历史记录 ───
+      try {
+        const sceneLabel = report.sceneLabel || mergedFormData.scene;
+        saveHistory({
+          solutionData: {
+            formData: {
+              scene: solutionFormData.scene,
+              headCount: Number(solutionFormData.headCount),
+              totalBudget: Number(solutionFormData.totalBudget),
+              fundSource: solutionFormData.fundSource,
+              budgetMode: solutionFormData.budgetMode,
+              category: solutionFormData.category,
+            },
+            reportFormData: {
+              unitName: reportFormData.unitName,
+              department: reportFormData.department,
+              applicant: reportFormData.applicant,
+              year: reportFormData.year,
+              festival: reportFormData.festival,
+            },
+            productList: productListResult,
+            report,
+          },
+          summary: {
+            unitName: reportFormData.unitName,
+            scene: solutionFormData.scene,
+            sceneLabel,
+            headCount: Number(solutionFormData.headCount),
+            totalBudget: Number(solutionFormData.totalBudget),
+            totalAmount: productListResult.totalAmount,
+          },
+        });
+      } catch (historyErr) {
+        console.warn('保存历史记录失败:', historyErr);
+        // 历史保存失败不影响主流程
+      }
     } catch (err) {
       setErrorMessage(err.message || '生成公文时出现错误');
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // 导出Word文档
+  const handleExportWord = async () => {
+    if (!reportResult?.body) {
+      setErrorMessage('请先生成公文');
+      return;
+    }
+    
+    try {
+      // 合并表单数据
+      const mergedFormData = {
+        ...solutionFormData,
+        ...reportFormData
+      };
+      
+      await exportToWord(reportResult.body, mergedFormData);
+    } catch (error) {
+      console.error('Word导出失败:', error);
+      setErrorMessage(`Word导出失败: ${error.message}`);
+    }
+  };
+
+  // 导出PDF文档
+  const handleExportPDF = async () => {
+    if (!reportResult?.body) {
+      setErrorMessage('请先生成公文');
+      return;
+    }
+    
+    try {
+      // 合并表单数据
+      const mergedFormData = {
+        ...solutionFormData,
+        ...reportFormData
+      };
+      
+      // PDF导出需要HTML元素ID
+      const elementId = 'generated-report-content';
+      exportToPDF(elementId, mergedFormData);
+    } catch (error) {
+      console.error('PDF导出失败:', error);
+      setErrorMessage(`PDF导出失败: ${error.message}`);
     }
   };
 
@@ -146,6 +243,112 @@ function App() {
   const handleRegenerateSolution = () => {
     setIsExampleMode(true);
     setProductListResult(null);
+    setOriginalProductListResult(null);
+    setIsAdjusted(false);
+    setIsReportGenerated(false);
+    setReportResult(null);
+    setErrorMessage('');
+  };
+
+  // ─────────────────────────────────────────────
+  // 品单手动调整回调
+  // ─────────────────────────────────────────────
+
+  // 更新品单（通用：接收新的 items 数组，重新计算汇总）
+  const handleUpdateProductItems = (updatedItems) => {
+    if (!productListResult) return;
+    const recalc = recalculateSolution(updatedItems, solutionFormData.totalBudget);
+    setProductListResult({
+      ...productListResult,
+      items: updatedItems,
+      ...recalc,
+    });
+    setIsAdjusted(true);
+    // 品单变更后，已生成的公文标记为过期
+    if (isReportGenerated) {
+      setIsReportGenerated(false);
+      setReportResult(null);
+    }
+  };
+
+  // 修改商品数量
+  const handleAdjustProduct = (productId, newQuantity) => {
+    const updatedItems = productListResult.items.map(it =>
+      it.product.id === productId
+        ? { ...it, quantity: newQuantity, subtotal: Math.round(it.product.price * newQuantity * 100) / 100 }
+        : it
+    );
+    handleUpdateProductItems(updatedItems);
+  };
+
+  // 删除商品
+  const handleRemoveProduct = (productId) => {
+    const filteredItems = productListResult.items.filter(it => it.product.id !== productId);
+    if (filteredItems.length === 0) return; // 不允许删空
+    handleUpdateProductItems(filteredItems);
+  };
+
+  // 添加商品（默认数量1）
+  const handleAddProduct = (product) => {
+    const newItem = {
+      product,
+      quantity: 1,
+      subtotal: product.price,
+    };
+    const updatedItems = [...productListResult.items, newItem];
+    handleUpdateProductItems(updatedItems);
+  };
+
+  // 恢复为系统自动生成的原始方案
+  const handleResetSolution = () => {
+    if (originalProductListResult) {
+      setProductListResult(originalProductListResult);
+      setIsAdjusted(false);
+      // 品单变更后，已生成的公文标记为过期
+      if (isReportGenerated) {
+        setIsReportGenerated(false);
+        setReportResult(null);
+      }
+    }
+  };
+
+  // ─────────────────────────────────────────────
+  // 历史方案复用
+  // ─────────────────────────────────────────────
+  const handleReuseHistory = (historyItem) => {
+    const { formData, reportFormData: rfd, productList: pl, report: rpt } = historyItem.solutionData;
+
+    // 恢复方案表单
+    setSolutionFormData({
+      scene: formData.scene,
+      headCount: formData.headCount,
+      totalBudget: formData.totalBudget,
+      fundSource: formData.fundSource,
+      budgetMode: formData.budgetMode,
+      category: formData.category,
+    });
+
+    // 恢复公文表单
+    setReportFormData({
+      unitName: rfd.unitName,
+      department: rfd.department,
+      applicant: rfd.applicant,
+      year: rfd.year,
+      festival: rfd.festival,
+    });
+
+    // 恢复品单结果
+    setProductListResult(pl);
+    setOriginalProductListResult(pl);
+    setIsAdjusted(false);
+
+    // 恢复报告
+    setReportResult(rpt);
+    setIsReportGenerated(true);
+
+    // 切换到公文生成页
+    setCurrentView('report');
+    setIsExampleMode(false);
     setErrorMessage('');
   };
 
@@ -196,6 +399,20 @@ function App() {
               <div className={`px-3 py-1 rounded-full text-sm font-medium ${currentView === 'report' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600'}`}>
                 第二步：公文生成
               </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowHistory(true)}
+                className="px-4 py-2 bg-amber-500 text-white font-medium rounded-lg hover:bg-amber-600 transition-colors"
+              >
+                📋 历史方案
+              </button>
+              <button
+                onClick={() => setShowProductManager(true)}
+                className="px-4 py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                📦 商品库管理
+              </button>
             </div>
           </div>
         </div>
@@ -259,6 +476,15 @@ function App() {
             <SolutionPreview 
               productList={productListForPreview}
               isExample={isExampleMode}
+              productListResult={productListResult}
+              headCount={solutionFormData.headCount}
+              totalBudget={solutionFormData.totalBudget}
+              isAdjusted={isAdjusted}
+              allProducts={productsData}
+              onAdjustProduct={handleAdjustProduct}
+              onRemoveProduct={handleRemoveProduct}
+              onAddProduct={handleAddProduct}
+              onResetSolution={handleResetSolution}
             />
           </div>
         )}
@@ -401,10 +627,24 @@ function App() {
             <ProcurementReport 
               report={reportResult?.body}
               isExample={!isReportGenerated}
+              onExportWord={handleExportWord}
+              onExportPDF={handleExportPDF}
+              showExportButtons={isReportGenerated}
             />
           </div>
         )}
       </div>
+
+      {showProductManager && (
+        <ProductManager onClose={() => setShowProductManager(false)} />
+      )}
+
+      {showHistory && (
+        <HistoryManager
+          onClose={() => setShowHistory(false)}
+          onReuse={handleReuseHistory}
+        />
+      )}
     </div>
   );
 }
