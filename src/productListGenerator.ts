@@ -245,3 +245,46 @@ export function formatItemList(items: PurchaseItem[]): string {
     )
     .join('\n');
 }
+
+// ─────────────────────────────────────────────
+// 品单手动调整辅助函数
+// ─────────────────────────────────────────────
+
+/**
+ * 重新计算品单汇总数据（用于手动调整后刷新统计）
+ *
+ * 不修改商品列表，只重新计算：
+ *   - totalAmount（合计金额）
+ *   - budgetUsageRate（预算使用率）
+ *   - platform832Amount（832平台商品金额）
+ *   - platform832Rate（832商品占比）
+ *
+ * @param items       当前的商品行列表
+ * @param totalBudget 原始总预算（用于计算使用率）
+ */
+export function recalculateSolution(
+  items: PurchaseItem[],
+  totalBudget: number,
+): Pick<ProductListResult, 'totalAmount' | 'budgetUsageRate' | 'platform832Amount' | 'platform832Rate'> {
+  const totalAmount = Math.round(
+    items.reduce((s, it) => s + it.subtotal, 0) * 100,
+  ) / 100;
+
+  const platform832Amount = Math.round(
+    items
+      .filter((it) => it.product.is832)
+      .reduce((s, it) => s + it.subtotal, 0) * 100,
+  ) / 100;
+
+  const budgetUsageRate =
+    totalBudget > 0
+      ? Math.round((totalAmount / totalBudget) * 10000) / 10000
+      : 0;
+
+  const platform832Rate =
+    totalAmount > 0
+      ? Math.round((platform832Amount / totalAmount) * 10000) / 10000
+      : 0;
+
+  return { totalAmount, budgetUsageRate, platform832Amount, platform832Rate };
+}

@@ -16,19 +16,25 @@ const ProcurementReport = ({
   // 为PDF导出生成唯一ID
   const reportId = isExample ? 'example-report-content' : 'generated-report-content';
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <div className="flex items-center justify-between mb-6 border-b-2 border-blue-200 pb-3">
-        <h2 className="text-2xl font-bold text-blue-800">{title}</h2>
-        {isExample && (
-          <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
-            示例公文
-          </span>
-        )}
+    <div className="max-w-4xl mx-auto p-4 md:p-6 bg-white rounded-lg shadow-md">
+      <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 border-b-2 border-blue-200 pb-3 gap-3">
+        <div className="flex items-center gap-2 md:gap-3">
+          <h2 className="text-xl md:text-2xl font-bold text-blue-800">{title}</h2>
+          {isExample && (
+            <span className="px-2 md:px-3 py-0.5 md:py-1 bg-blue-100 text-blue-800 text-xs md:text-sm font-medium rounded-full">
+              示例公文
+            </span>
+          )}
+        </div>
       </div>
       
-      <div id={reportId} className="bg-white border border-gray-200 rounded-lg p-8 font-sans">
-        <div className="whitespace-pre-line text-gray-800 leading-relaxed">
+      <div id={reportId} className="bg-white border border-gray-200 rounded-lg p-4 md:p-8 font-sans">
+        <div className="whitespace-pre-line text-gray-800 text-sm md:text-base leading-relaxed">
           {reportLines.map((line, index) => {
             // 红头文件格式处理 - 示例公文去掉红头，统一使用普通格式
             if (line.includes('〔2026〕')) {
@@ -124,28 +130,35 @@ const ProcurementReport = ({
       
       {/* 导出按钮区域 */}
       {showExportButtons && !isExample && (
-        <div className="mt-8 p-6 bg-gray-50 border border-gray-200 rounded-lg">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-6 md:mt-8 p-4 md:p-6 bg-gray-50 border border-gray-200 rounded-lg">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             <div>
               <h3 className="text-lg font-semibold text-gray-800 mb-1">导出公文</h3>
               <p className="text-gray-600 text-sm">
                 将公文导出为Word或PDF格式，便于打印、存档或提交
               </p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap sm:flex-nowrap gap-3 justify-center">
               <button
                 onClick={onExportWord}
-                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md"
+                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-3 min-h-[44px] bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md no-print"
               >
                 <span>📄</span>
                 <span>导出Word</span>
               </button>
               <button
                 onClick={onExportPDF}
-                className="flex items-center gap-2 px-6 py-3 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors duration-200 shadow-md"
+                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-3 min-h-[44px] bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors duration-200 shadow-md no-print"
               >
                 <span>📑</span>
                 <span>导出PDF</span>
+              </button>
+              <button
+                onClick={handlePrint}
+                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-3 min-h-[44px] bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors duration-200 shadow-md no-print"
+              >
+                <span>🖨️</span>
+                <span>打印</span>
               </button>
             </div>
           </div>

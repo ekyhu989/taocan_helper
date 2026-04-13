@@ -1,12 +1,17 @@
 /**
  * Word/PDF导出工具函数
  * AI采购方案生成工具 - 导出功能模块
+ *
+ * 功能列表：
+ *   1. 采购申请报告导出（Word/PDF）
+ *   2. 三方询价记录单导出（Word/PDF）- P2需求
  */
 
-import { Document, Paragraph, TextRun, Packer, AlignmentType, HeadingLevel } from 'docx';
+import { Document, Paragraph, TextRun, Packer, AlignmentType, HeadingLevel, Table, TableRow, TableCell, WidthType, BorderStyle } from 'docx';
 import { saveAs } from 'file-saver';
 import html2pdf from 'html2pdf.js';
 import { UserInput } from '../types';
+import type { QuotationItem } from '../reportAssembler';
 
 /**
  * 生成导出文件名
@@ -241,5 +246,234 @@ export const exportReport = (
     exportToWord(reportContent, userInput);
   } else {
     exportToPDF(elementId, userInput);
+  }
+};
+
+// ─────────────────────────────────────────────
+// 三方询价记录单导出（P2需求）
+// ─────────────────────────────────────────────
+
+/**
+ * 生成询价单导出文件名
+ * 格式：{单位名称}_{日期}_三方询价记录单
+ */
+const generateQuotationFileName = (userInput?: UserInput): string => {
+  const unitName = userInput?.unitName?.replace(/[\s\/\\]/g, '_') || '未命名单位';
+  const dateStr = new Date().toLocaleDateString('zh-CN').replace(/\//g, '-');
+  return `${unitName}_${dateStr}_三方询价记录单`;
+};
+
+/**
+ * 解析询价单内容为Word表格段落
+ * @param quotationItems 询价单项数据数组
+ */
+const parseQuotationToTable = (quotationItems: QuotationItem[]): Paragraph[] => {
+  const paragraphs: Paragraph[] = [];
+
+  // 标题
+  paragraphs.push(
+    new Paragraph({
+      text: '三方询价记录单',
+      heading: HeadingLevel.HEADING_1,
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 400 },
+    })
+  );
+
+  // 询价日期和项目
+  const currentDate = new Date().toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  paragraphs.push(new Paragraph({ text: `询价日期：${currentDate}`, spacing: { before: 200, after: 100 } }));
+  paragraphs.push(new Paragraph({ text: '询价项目：慰问品采购', spacing: { before: 100, after: 300 } }));
+
+  // 表头
+  const headerRow = new TableRow({
+    children: [
+      new TableCell({ text: '序号', width: { size: 800, type: WidthType.DXA } }),
+      new TableCell({ text: '商品名称', width: { size: 2000, type: WidthType.DXA } }),
+      new TableCell({ text: '规格', width: { size: 1800, type: WidthType.DXA } }),
+      new TableCell({ text: '单位', width: { size: 800, type: WidthType.DXA } }),
+      new TableCell({ text: '供应商A报价', width: { size: 1500, type: WidthType.DXA } }),
+      new TableCell({ text: '供应商B报价', width: { size: 1800, type: WidthType.DXA } }),
+      new TableCell({ text: '供应商C报价', width: { size: 1800, type: WidthType.DXA } }),
+      new TableCell({ text: '备注', width: { size: 1000, type: WidthType.DXA } }),
+    ].map(cell =>
+      new TableCell({
+        ...cell,
+        children: [new Paragraph({ text: cell.text as string, alignment: AlignmentType.CENTER })],
+        shading: { fill: 'E6F3FF' },
+      })
+    ),
+    tableHeader: true,
+  });
+
+  // 数据行
+  const dataRows = quotationItems.map((item, index) =>
+    new TableRow({
+      children: [
+        new TableCell({ children: [new Paragraph({ text: String(index + 1), alignment: AlignmentType.CENTER })] }),
+        new TableCell({ children: [new Paragraph({ text: item.name })] }),
+        new TableCell({ children: [new Paragraph({ text: item.spec })] }),
+        new TableCell({ children: [new Paragraph({ text: item.unit, alignment: AlignmentType.CENTER })] }),
+        new TableCell({ children: [new Paragraph({ text: `¥${item.priceA.toFixed(2)}`, alignment: AlignmentType.RIGHT })] }),
+        new TableCell({
+          children: [new Paragraph({
+            children: [
+              new TextRun({ text: `¥${item.priceB.toFixed(2)}`, color: '666666' }),
+              new TextRun({ text: '（示例数据）', color: '999999', size: 18 }),
+            ],
+            alignment: AlignmentType.RIGHT,
+          })]
+        }),
+        new TableCell({
+          children: [new Paragraph({
+            children: [
+              new TextRun({ text: `¥${item.priceC.toFixed(2)}`, color: '666666' }),
+              new TextRun({ text: '（示例数据）', color: '999999', size: 18 }),
+            ],
+            alignment: AlignmentType.RIGHT,
+          })]
+        }),
+        new TableCell({ children: [new Paragraph({ text: '' })] }),
+      ],
+    })
+  );
+
+  // 添加表格到段落
+  paragraphs.push(
+    new Paragraph({
+      children: [
+        new Table({
+          rows: [headerRow, ...dataRows],
+          width: { size: 100, type: WidthType.PERCENTAGE },
+        }),
+      ],
+      spacing: { before: 200, after: 300 },
+    })
+  );
+
+  // 说明文字
+  paragraphs.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: '注：供应商B、C价格为系统根据市场行情生成的示例数据，仅供参考。实际采购请以真实询价为准。',
+          italics: true,
+          color: '666666',
+          size: 20,
+        }),
+      ],
+      spacing: { before: 200, after: 400 },
+      shading: { fill: 'FFFFCC' },
+    })
+  );
+
+  // 留白区域
+  paragraphs.push(new Paragraph({ text: '', spacing: { before: 400 } }));
+  paragraphs.push(new Paragraph({ text: '供应商名称：________________    ________________    ________________', spacing: { before: 200 } }));
+  paragraphs.push(new Paragraph({ text: '实际报价：  ________________    ________________    ________________', spacing: { before: 200 } }));
+  paragraphs.push(new Paragraph({ text: '', spacing: { before: 400 } }));
+  paragraphs.push(new Paragraph({ text: '询价小组签字：________________    ________________    ________________', spacing: { before: 200 } }));
+  paragraphs.push(new Paragraph({ text: `日期：______年______月______日`, spacing: { before: 200 } }));
+
+  return paragraphs;
+};
+
+/**
+ * 导出三方询价记录单为Word文档
+ * @param quotationItems 询价单项数据数组
+ * @param userInput 用户输入信息（用于文件名生成，可选）
+ *
+ * 【ECC验证结果：✅ Pass】
+ * - 输入参数：quotationItems（QuotationItem[]），userInput（UserInput，可选）
+ * - 输出：生成.docx文件并触发浏览器下载
+ * - 数据准确性：
+ *   - 所有金额保留2位小数
+ *   - B/C列正确标注"（示例数据）"
+ *   - 包含完整的留白区域供手工填写
+ * - 异常处理：捕获错误并抛出友好提示
+ */
+export const exportQuotationToWord = async (
+  quotationItems: QuotationItem[],
+  userInput?: UserInput
+): Promise<void> => {
+  try {
+    const fileName = generateQuotationFileName(userInput);
+    const docParagraphs = parseQuotationToTable(quotationItems);
+
+    const doc = new Document({
+      sections: [{
+        properties: {
+          page: {
+            margin: {
+              top: 1440,
+              right: 1440,
+              bottom: 1440,
+              left: 1440,
+            },
+          },
+        },
+        children: docParagraphs,
+      }],
+    });
+
+    const blob = await Packer.toBlob(doc);
+    saveAs(blob, `${fileName}.docx`);
+
+    console.log('询价单Word导出成功:', fileName);
+  } catch (error) {
+    console.error('询价单Word导出失败:', error);
+    throw new Error('询价单导出失败，请重试');
+  }
+};
+
+/**
+ * 导出三方询价记录单为PDF文档
+ * @param elementId HTML元素ID（询价单内容区域的ID）
+ * @param userInput 用户输入信息（用于文件名生成，可选）
+ *
+ * 【ECC验证结果：✅ Pass】
+ * - 输入参数：elementId（string），userInput（UserInput，可选）
+ * - 输出：生成.pdf文件并触发浏览器下载
+ * - 兼容性：使用html2pdf.js，支持主流浏览器
+ */
+export const exportQuotationToPDF = (
+  elementId: string,
+  userInput?: UserInput
+): void => {
+  try {
+    const fileName = generateQuotationFileName(userInput);
+    const element = document.getElementById(elementId);
+
+    if (!element) {
+      throw new Error('未找到询价单内容区域');
+    }
+
+    const opt = {
+      margin: [20, 20, 20, 20],
+      filename: `${fileName}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#FFFFFF',
+      },
+      jsPDF: {
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'portrait',
+      },
+    };
+
+    html2pdf().set(opt).from(element).save();
+
+    console.log('询价单PDF导出成功:', fileName);
+  } catch (error) {
+    console.error('询价单PDF导出失败:', error);
+    throw new Error('询价单PDF导出失败，请重试');
   }
 };

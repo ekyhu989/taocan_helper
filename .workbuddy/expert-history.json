@@ -22,7 +22,18 @@
         "usedAt": 1775899829616,
         "industryId": "02-Engineering"
       }
+    ],
+    "95097fea020a4f778331a4cbeb6a06e5": [
+      {
+        "expertId": "SeniorProjectManager",
+        "name": "Dylan",
+        "profession": "高级项目经理",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/07-ProjectManagement/SeniorProjectManager/SeniorProjectManager.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/07-ProjectManagement/SeniorProjectManager/SeniorProjectManager_zh.md",
+        "usedAt": 1776045664366,
+        "industryId": "all"
+      }
     ]
   },
-  "lastUpdated": 1775985798675
+  "lastUpdated": 1776050359880
 }

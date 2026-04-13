@@ -10,3 +10,130 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* === 安全区域适配 === */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* === 触摸优化 === */
+@media (pointer: coarse) {
+  input, select, button {
+    min-height: 44px;
+  }
+  
+  table td, table th {
+    min-height: 48px;
+  }
+}
+
+/* === 防止iOS聚焦时自动缩放 === */
+input, select, textarea {
+  font-size: 16px;
+}
+
+/* === 表格横向滚动优化 === */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.table-responsive::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+/* === 打印样式 === */
+@media print {
+  /* 隐藏不需要的元素 */
+  .no-print,
+  button,
+  .btn,
+  nav,
+  .nav,
+  .alert,
+  .notification,
+  .shadow-md,
+  .rounded-lg,
+  .border-b {
+    display: none !important;
+  }
+
+  /* 确保打印区域可见 */
+  .print-only,
+  #report-content,
+  #example-report-content,
+  #generated-report-content {
+    display: block !important;
+  }
+
+  /* 页面设置 */
+  @page {
+    margin: 2cm;
+    size: A4;
+  }
+
+  /* 背景色和边框保留 */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 字体大小 */
+  body {
+    font-size: 12pt;
+    line-height: 1.6;
+  }
+
+  /* 标题样式 */
+  h1 {
+    font-size: 18pt;
+    text-align: center;
+    margin-bottom: 20pt;
+  }
+
+  h2 {
+    font-size: 14pt;
+    margin-top: 16pt;
+    margin-bottom: 8pt;
+  }
+
+  /* 段落样式 */
+  p {
+    margin-bottom: 8pt;
+    text-indent: 2em;
+  }
+
+  /* 避免元素跨页断裂 */
+  table, tr, td, .no-page-break {
+    page-break-inside: avoid;
+  }
+
+  /* 强制分页点 */
+  .page-break {
+    page-break-after: always;
+  }
+
+  /* 确保卡片在打印时没有阴影和圆角 */
+  .bg-white {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  /* 报告内容调整 */
+  #report-content,
+  #example-report-content,
+  #generated-report-content {
+    border: none !important;
+    padding: 0 !important;
+  }
+}

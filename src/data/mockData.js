@@ -1,9 +1,16 @@
 const mockData = {
   basicInfo: {
+    region: '新疆地区',
     sceneOptions: [
       { value: 'holiday', label: '传统节日慰问' },
       { value: 'activity', label: '专项活动物资' },
       { value: 'care', label: '精准帮扶慰问' }
+    ],
+    festivalOptions: [
+      { value: 'spring', label: '春节' },
+      { value: 'eid', label: '古尔邦节' },
+      { value: 'nowruz', label: '肉孜节' },
+      { value: 'other', label: '其他' }
     ],
     headCount: '',
     totalBudget: '',
