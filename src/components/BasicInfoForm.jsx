@@ -52,13 +52,16 @@ const BasicInfoForm = ({ formData, onDataChange, showExampleNotice = true, onCle
         <form className="space-y-4 md:space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="region-field" className="block text-sm font-medium text-gray-700 mb-2">
                 采购地区
               </label>
               <input
                 type="text"
-                value={mockData.basicInfo.region}
+                id="region-field"
+                name="region"
+                value={formData.region || '新疆地区'}
                 disabled
+                data-testid="region-field"
                 className="w-full px-4 py-3 min-h-[44px] border border-gray-300 rounded-md bg-gray-100 text-gray-600 cursor-not-allowed"
               />
               <p className="mt-1 text-xs text-gray-500">默认为新疆地区</p>
@@ -72,6 +75,7 @@ const BasicInfoForm = ({ formData, onDataChange, showExampleNotice = true, onCle
                 name="scene"
                 value={formData.scene || mockData.basicInfo.sceneOptions[0].value}
                 onChange={handleChange}
+                data-testid="scene-selector"
                 className="w-full px-4 py-3 min-h-[44px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 {mockData.basicInfo.sceneOptions.map(option => (
@@ -84,10 +88,11 @@ const BasicInfoForm = ({ formData, onDataChange, showExampleNotice = true, onCle
             
             {formData.scene === 'holiday' && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="festival-selector" className="block text-sm font-medium text-gray-700 mb-2">
                   节日类型 <span className="text-red-500">*</span>
                 </label>
                 <select
+                  id="festival-selector"
                   name="festival"
                   value={formData.festival || ''}
                   onChange={handleChange}

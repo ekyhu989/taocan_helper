@@ -224,3 +224,42 @@ export function getYearlyProgress(yearlyBudget: number): YearlyProgressData {
     remaining,
   };
 }
+
+/**
+ * 获取指定年份的累计832平台采购金额
+ * @param year 年份，默认为当前年份
+ * @returns 该年份所有历史方案的832平台商品总金额
+ */
+export function getYearly832Total(year: number = new Date().getFullYear()): number {
+  const history = loadHistory();
+  return history
+    .filter(item => {
+      const itemYear = new Date(item.createdAt).getFullYear();
+      return itemYear === year;
+    })
+    .reduce((sum, item) => sum + (item.solutionData?.productList?.platform832Amount || 0), 0);
+}
+
+/**
+ * 获取年度832平台采购进度
+ * @param yearlyBudget 年度总预算（用于计算30%达标线）
+ * @returns 包含累计832金额、832占比、剩余金额的数据
+ */
+export function getYearly832Progress(yearlyBudget: number): YearlyProgressData {
+  const total832 = getYearly832Total();
+  const total = getYearlyTotal(); // 总采购金额
+
+  if (yearlyBudget <= 0) {
+    return { total: total832, rate: 0, remaining: 0 };
+  }
+
+  const rate = (total832 / yearlyBudget) * 100;
+  const targetAmount = yearlyBudget * 0.3; // 30%达标线
+  const remaining = Math.max(0, targetAmount - total832);
+
+  return {
+    total: total832,
+    rate,
+    remaining,
+  };
+}

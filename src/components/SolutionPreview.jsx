@@ -448,29 +448,38 @@ const SolutionPreview = ({
             </div>
           )}
 
-          {platform832Amount > 0 && (
-            <div className="pt-4 border-t border-blue-200">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <span className="text-gray-700 block mb-1">832平台产品金额：</span>
-                  <span className="text-lg font-medium text-green-700">¥{platform832Amount.toFixed(2)}</span>
+          {/* 832平台产品占比提示区域 - 始终显示 */}
+          <div className="pt-4 border-t border-blue-200">
+            {products.length > 0 ? (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <span className="text-gray-700 block mb-1">832平台产品金额：</span>
+                    <span className="text-lg font-medium text-green-700">¥{platform832Amount.toFixed(2)}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-700 block mb-1">832平台产品占比：</span>
+                    <span className={`text-lg font-medium ${platform832Rate >= complianceRules.platformRatioMinGift ? 'text-green-700' : 'text-amber-600'}`}>
+                      {platform832Rate.toFixed(1)}%
+                      {platform832Rate >= complianceRules.platformRatioMinGift ? ' ✅' : `（需≥${complianceRules.platformRatioMinGift}%）`}
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-gray-700 block mb-1">832平台产品占比：</span>
-                  <span className={`text-lg font-medium ${platform832Rate >= complianceRules.platformRatioMinGift ? 'text-green-700' : 'text-amber-600'}`}>
-                    {platform832Rate.toFixed(1)}%
-                    {platform832Rate >= complianceRules.platformRatioMinGift ? ' ✅' : `（需≥${complianceRules.platformRatioMinGift}%）`}
-                  </span>
+                <div className={`mt-3 p-3 rounded-md border ${platform832Rate >= complianceRules.platformRatioMinGift ? 'bg-green-50 border-green-200 text-green-700' : 'bg-amber-50 border-amber-200 text-amber-700'}`}>
+                  <p className="text-sm">
+                    <span className="font-medium">{platform832Rate >= complianceRules.platformRatioMinGift ? '✅ 政策合规提示：' : '⚠️ 政策提醒：'}</span>
+                    {platform832Hint(platform832Rate)}
+                  </p>
                 </div>
-              </div>
-              <div className={`mt-3 p-3 rounded-md border ${platform832Rate >= complianceRules.platformRatioMinGift ? 'bg-green-50 border-green-200 text-green-700' : 'bg-amber-50 border-amber-200 text-amber-700'}`}>
-                <p className="text-sm">
-                  <span className="font-medium">{platform832Rate >= complianceRules.platformRatioMinGift ? '✅ 政策合规提示：' : '⚠️ 政策提醒：'}</span>
-                  {platform832Hint(platform832Rate)}
+              </>
+            ) : (
+              <div className="p-3 bg-yellow-50 border border-yellow-300 rounded-md">
+                <p className="text-yellow-800 text-sm">
+                  ⚠️ 政策提醒：当前采购方案中暂无832平台产品，建议在后续采购中增加脱贫地区农副产品比例，确保达到≥30%的政策要求（新财购〔2025〕2号）。
                 </p>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

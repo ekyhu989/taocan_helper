@@ -19,35 +19,35 @@ import type { Product, UserInput } from '../types';
 const MOCK_PRODUCTS: Product[] = [
   {
     id: 'p001', name: '五常大米礼盒', unit: '份', price: 58,
-    category: '食品', scenes: ['holiday', 'activity', 'care'], is832: true,
+    category: '食品', category_tag: '食品', scenes: ['holiday', 'activity', 'care'], is832: true,
   },
   {
     id: 'p002', name: '椰树椰汁（24罐装）', unit: '箱', price: 45,
-    category: '饮品', scenes: ['holiday', 'activity'], is832: false,
+    category: '饮品', category_tag: '食品', scenes: ['holiday', 'activity'], is832: false,
   },
   {
     id: 'p003', name: '橄榄油礼盒', unit: '套', price: 128,
-    category: '食品', scenes: ['holiday'], is832: false,
+    category: '食品', category_tag: '食品', scenes: ['holiday'], is832: false,
   },
   {
     id: 'p004', name: '黑木耳礼包', unit: '份', price: 36,
-    category: '食品', scenes: ['holiday', 'care'], is832: true,
+    category: '食品', category_tag: '食品', scenes: ['holiday', 'care'], is832: true,
   },
   {
     id: 'p005', name: '防暑降温套装', unit: '套', price: 68,
-    category: '日用品', scenes: ['activity'], is832: false,
+    category: '日用品', category_tag: '日用品', scenes: ['activity'], is832: false,
   },
   {
     id: 'p006', name: '贵州茶叶礼盒', unit: '盒', price: 88,
-    category: '食品', scenes: ['holiday', 'care'], is832: true,
+    category: '食品', category_tag: '食品', scenes: ['holiday', 'care'], is832: true,
   },
   {
     id: 'p007', name: '洗护用品套装', unit: '套', price: 55,
-    category: '日用品', scenes: ['activity', 'care'], is832: false,
+    category: '日用品', category_tag: '日用品', scenes: ['activity', 'care'], is832: false,
   },
   {
     id: 'p008', name: '坚果礼盒', unit: '盒', price: 98,
-    category: '食品', scenes: ['holiday', 'activity', 'care'], is832: false,
+    category: '食品', category_tag: '食品', scenes: ['holiday', 'activity', 'care'], is832: false,
   },
 ];
 
@@ -119,7 +119,7 @@ suite('toChineseAmount', () => {
 // ─────────────────────────────────────────────
 suite('generateProductList', () => {
   const totalBudget = 5000;
-  const result = generateProductList(MOCK_PRODUCTS, 'holiday', totalBudget);
+  const result = generateProductList(MOCK_PRODUCTS, 'holiday', totalBudget, 10);
 
   assert(result.items.length >= 4 && result.items.length <= 6, '商品数量在 4~6 之间');
   assert(result.totalAmount > 0, 'totalAmount > 0');
@@ -139,12 +139,12 @@ suite('generateProductList', () => {
   assert(subtotalOk, '每项 subtotal = price × quantity');
 
   // activity 场景过滤
-  const resultActivity = generateProductList(MOCK_PRODUCTS, 'activity', 3000);
+  const resultActivity = generateProductList(MOCK_PRODUCTS, 'activity', 3000, 10);
   assert(resultActivity.items.length >= 4, 'activity 场景能生成品单');
 
   // 异常：空商品库
   try {
-    generateProductList([], 'holiday', 5000);
+    generateProductList([], 'holiday', 5000, 10);
     assert(false, '空商品库应抛出异常');
   } catch {
     assert(true, '空商品库正确抛出异常');
@@ -152,7 +152,7 @@ suite('generateProductList', () => {
 
   // 异常：预算为0
   try {
-    generateProductList(MOCK_PRODUCTS, 'holiday', 0);
+    generateProductList(MOCK_PRODUCTS, 'holiday', 0, 10);
     assert(false, '预算为0应抛出异常');
   } catch {
     assert(true, '预算为0正确抛出异常');
@@ -180,7 +180,7 @@ suite('assembleReport', () => {
     festival: '中秋节',
   };
 
-  const productResult = generateProductList(MOCK_PRODUCTS, 'holiday', 15000);
+  const productResult = generateProductList(MOCK_PRODUCTS, 'holiday', 15000, 50);
   const report = assembleReport(userInput, productResult);
 
   assert(typeof report.title === 'string' && report.title.length > 0, '报告标题非空');
@@ -203,7 +203,7 @@ suite('assembleReport', () => {
   const activityInput: UserInput = {
     ...userInput, scene: 'activity', festival: '夏送清凉',
   };
-  const activityProduct = generateProductList(MOCK_PRODUCTS, 'activity', 15000);
+  const activityProduct = generateProductList(MOCK_PRODUCTS, 'activity', 15000, 50);
   const activityReport = assembleReport(activityInput, activityProduct);
   assert(activityReport.sceneLabel === '专项活动物资', 'activity 场景标签正确');
   assert(activityReport.body.includes('夏送清凉'), 'activity 报告含活动名称');
@@ -212,7 +212,7 @@ suite('assembleReport', () => {
   const careInput: UserInput = {
     ...userInput, scene: 'care', festival: '职工生日',
   };
-  const careProduct = generateProductList(MOCK_PRODUCTS, 'care', 15000);
+  const careProduct = generateProductList(MOCK_PRODUCTS, 'care', 15000, 50);
   const careReport = assembleReport(careInput, careProduct);
   assert(careReport.sceneLabel === '精准帮扶慰问', 'care 场景标签正确');
 });

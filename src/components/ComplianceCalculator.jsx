@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { getYearly832Total, getYearlyTotal } from '../utils/historyStorage';
+import { platform832Hint } from '../data/policyData';
 
 const ComplianceCalculator = () => {
   const [totalBudget, setTotalBudget] = useState('');
@@ -10,6 +12,8 @@ const ComplianceCalculator = () => {
   const [headCount, setHeadCount] = useState(0);
   const [perCapitaAmount, setPerCapitaAmount] = useState(0);
   const [showAnnualWarning, setShowAnnualWarning] = useState(false);
+  const [platform832Amount, setPlatform832Amount] = useState(0);
+  const [platform832Rate, setPlatform832Rate] = useState(0);
 
   // 从localStorage获取单位人数
   useEffect(() => {
@@ -46,6 +50,12 @@ const ComplianceCalculator = () => {
     const MAX_ANNUAL_PER_CAPITA = 2000;
     setShowAnnualWarning(perCapita > MAX_ANNUAL_PER_CAPITA);
     
+    // 计算832平台累计采购金额和占比
+    const total832 = getYearly832Total();
+    setPlatform832Amount(total832);
+    const rate832 = total > 0 ? (total832 / total) * 100 : 0;
+    setPlatform832Rate(rate832);
+    
     // 三色进度条逻辑
     if (rate < 30) {
       setProgressColor('bg-red-500');
@@ -81,12 +91,13 @@ const ComplianceCalculator = () => {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="total-budget-input" className="block text-sm font-medium text-gray-700 mb-2">
             年度总预算（元） <span className="text-red-500">*</span>
           </label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">¥</span>
             <input
+              id="total-budget-input"
               type="text"
               value={totalBudget}
               onChange={handleTotalBudgetChange}
@@ -98,12 +109,13 @@ const ComplianceCalculator = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="completed-amount-input" className="block text-sm font-medium text-gray-700 mb-2">
             已完成采购金额（元）
           </label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">¥</span>
             <input
+              id="completed-amount-input"
               type="text"
               value={completedAmount}
               onChange={handleCompletedAmountChange}
@@ -191,7 +203,7 @@ const ComplianceCalculator = () => {
         </div>
 
         {/* 详细数据 */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="text-center p-4 bg-white rounded-lg shadow-sm">
             <div className="text-2xl font-bold text-blue-700">¥{totalBudget ? Number(totalBudget).toLocaleString() : '0'}</div>
             <div className="text-gray-600 text-sm">年度总预算</div>
@@ -205,6 +217,35 @@ const ComplianceCalculator = () => {
               ¥{remainingAmount.toFixed(2)}
             </div>
             <div className="text-gray-600 text-sm">还需采购金额（满足30%要求）</div>
+          </div>
+          <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+            <div className={`text-2xl font-bold ${platform832Rate >= 30 ? 'text-purple-700' : 'text-gray-700'}`}>
+              {platform832Rate.toFixed(1)}%
+            </div>
+            <div className="text-gray-600 text-sm">832平台占比</div>
+            <div className="text-xs text-gray-500 mt-1">
+              累计 ¥{platform832Amount.toLocaleString()}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 832平台占比提示 */}
+      <div className={`mt-6 p-4 rounded-lg border ${platform832Rate === 0 ? 'bg-gray-50 border-gray-200' : platform832Rate >= 30 ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}`}>
+        <div className="flex items-start gap-3">
+          <span className="text-xl">
+            {platform832Rate === 0 ? '📊' : platform832Rate >= 30 ? '✅' : '⚠️'}
+          </span>
+          <div>
+            <p className="font-medium text-gray-800">
+              {platform832Rate === 0 
+                ? '本年度尚未采购832平台产品，建议在后续采购中增加脱贫地区农副产品比例'
+                : platform832Hint(platform832Rate)}
+            </p>
+            <p className="text-sm text-gray-600 mt-1">
+              政策要求：工会慰问品中脱贫地区农副产品占比应≥30%（新财购〔2025〕2号）。
+              {platform832Rate === 0 && ' 当前累计832平台采购金额为0元。'}
+            </p>
           </div>
         </div>
       </div>

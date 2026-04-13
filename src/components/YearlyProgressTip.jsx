@@ -41,11 +41,26 @@ const YearlyProgressTip = ({ yearlyBudget }) => {
   };
 
   if (progress.total === 0) {
-    return null;
+    // 无历史记录，显示首次采购提示
+    return (
+      <div className="p-4 rounded-lg border bg-blue-50 border-blue-300 text-blue-800 mb-6" data-testid="yearly-progress-tip">
+        <div className="flex items-center justify-between">
+          <span className="font-semibold text-base">
+            📊 本年度首次采购
+          </span>
+          <span className="text-sm font-medium">
+            年度总预算 ¥{yearlyBudget.toFixed(2)}
+          </span>
+        </div>
+        <p className="text-sm mt-2 opacity-90">
+          完成本方案后，系统将记录本次采购金额，后续可查看年度累计进度。
+        </p>
+      </div>
+    );
   }
 
   return (
-    <div className={`p-4 rounded-lg border ${getTipStyle()} mb-6`}>
+    <div className={`p-4 rounded-lg border ${getTipStyle()} mb-6`} data-testid="yearly-progress-tip">
       <div className="flex items-center justify-between">
         <span className="font-semibold text-base">
           {getIcon()} 本年度已完成 {progress.rate.toFixed(1)}%

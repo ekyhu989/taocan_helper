@@ -318,7 +318,7 @@ export const generateRandomPrice = (basePrice: number): number => {
 export const generateQuotationSheet = (items: PurchaseItem[]): { items: QuotationItem[]; content: string } => {
   const quotationItems: QuotationItem[] = items.map(item => ({
     name: item.product.name,
-    spec: item.product.description || '-',
+    spec: item.product.category || '-',
     unit: item.product.unit,
     priceA: item.product.price,
     priceB: generateRandomPrice(item.product.price),
