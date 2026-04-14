@@ -45,6 +45,24 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 /**
+ * 根据资金来源计算人均金额上限
+ * @param perCapitaBudget 人均预算（元）
+ * @param fundSource 资金来源
+ * @returns 人均金额上限（元）
+ */
+function calculateMaxPerCapita(perCapitaBudget: number, fundSource: string): number {
+  const trimmedSource = fundSource.trim();
+  let factor = 0.9; // 默认其他资金9折
+  if (trimmedSource === '工会经费') {
+    factor = 0.8; // 工会经费8折
+  }
+  
+  const calculated = perCapitaBudget / factor;
+  // 确保至少为1元，避免除零或极小值
+  return Math.max(1, Math.floor(calculated));
+}
+
+/**
  * 按场景过滤商品库
  * 兜底：若过滤后商品不足 MIN_ITEMS，直接使用全库商品
  */
@@ -57,13 +75,39 @@ function filterByScene(products: Product[], scene: Scene): Product[] {
  * 按品类标签过滤商品库
  * 兜底：若过滤后商品不足 MIN_ITEMS，回退到只按场景过滤（不按品类）
  */
-function filterByCategory(products: Product[], category: string, scene: Scene): Product[] {
+function filterByCategory(
+  products: Product[], 
+  category: string, 
+  scene: Scene,
+  fundSource?: string,
+  totalBudget?: number,
+  headCount?: number
+): Product[] {
   // 首先按场景过滤
   const sceneFiltered = filterByScene(products, scene);
+  
+  // 如果提供了资金来源和总预算，根据资金来源计算人均金额上限并过滤商品
+  let priceFiltered = sceneFiltered;
+  if (fundSource && totalBudget && totalBudget > 0) {
+    // 计算人均预算：如果提供了人数且大于0，则使用人均预算；否则使用总预算（向后兼容）
+    const perCapitaBudget = headCount && headCount > 0 ? totalBudget / headCount : totalBudget;
+    // 根据资金来源计算人均金额上限
+    const maxPerCapita = calculateMaxPerCapita(perCapitaBudget, fundSource);
+    // 筛选单价不超过人均上限的商品
+    priceFiltered = sceneFiltered.filter(p => p.price <= maxPerCapita);
+    
+    // 如果价格过滤后商品不足，尝试放宽到场景过滤的所有商品（但可能触发后续警告）
+    if (priceFiltered.length < MIN_ITEMS) {
+      // 记录但不强制，后续会检查人均金额
+      console.warn(`价格过滤后商品不足 ${MIN_ITEMS} 个，使用场景过滤结果（可能超预算）`);
+      priceFiltered = sceneFiltered;
+    }
+  }
+  
   // 然后按品类标签过滤
-  const categoryFiltered = sceneFiltered.filter((p) => p.category_tag === category);
+  const categoryFiltered = priceFiltered.filter((p) => p.category_tag === category);
   // 如果品类过滤后商品足够，返回品类过滤结果；否则返回场景过滤结果（不按品类）
-  return categoryFiltered.length >= MIN_ITEMS ? categoryFiltered : sceneFiltered;
+  return categoryFiltered.length >= MIN_ITEMS ? categoryFiltered : priceFiltered;
 }
 
 // ─────────────────────────────────────────────
@@ -177,18 +221,31 @@ export function generateProductList(
   scene: Scene,
   totalBudget: number,
   headCount: number,
+  fundSource: string,
   budgetMode: BudgetMode = 'per_capita',
   category: string = '食品',
 ): ProductListResult {
   if (!products || products.length === 0) {
-    throw new Error('商品库为空，无法生成品单。');
+    throw new Error('商品库为空，无法生成品单。请联系客服导入商品。');
   }
   if (totalBudget <= 0) {
     throw new Error('总预算必须大于零。');
   }
+  if (headCount <= 0) {
+    throw new Error('人数必须大于零。');
+  }
 
   // Step 1：按场景和品类过滤 + 打乱
-  const candidates = shuffle(filterByCategory(products, category, scene));
+  const candidates = shuffle(filterByCategory(products, category, scene, fundSource, totalBudget, headCount));
+
+  // 检查候选商品是否足够
+  let noMatchWarning: string | undefined;
+  if (candidates.length === 0) {
+    throw new Error('当前商品库暂无匹配的商品。请调整场景或品类条件，或联系客服添加所需商品。');
+  }
+  if (candidates.length < MIN_ITEMS) {
+    noMatchWarning = `当前商品库匹配商品较少（仅 ${candidates.length} 个），建议联系客服添加更多商品以获得更优方案。`;
+  }
 
   // Step 2：随机决定本次商品数量 [MIN_ITEMS, MAX_ITEMS]，但不超过候选池大小
   const itemCount = Math.min(
@@ -200,10 +257,38 @@ export function generateProductList(
   // Step 3：根据预算模式分配数量
   const items = allocateQuantitiesWithMode(selected, totalBudget, headCount, budgetMode);
 
-  // Step 4：汇总统计
+  // 检查人均金额是否超过上限
   const totalAmount = Math.round(
     items.reduce((s, it) => s + it.subtotal, 0) * 100,
   ) / 100;
+  const perCapitaAmount = headCount > 0 ? totalAmount / headCount : 0;
+  // 计算人均预算，然后根据资金来源计算人均金额上限
+  const perCapitaBudget = headCount > 0 ? totalBudget / headCount : totalBudget;
+  const maxPerCapita = calculateMaxPerCapita(perCapitaBudget, fundSource);
+  
+  if (perCapitaAmount >= maxPerCapita) {
+    // 如果人均金额超过上限，检查是否因为商品单价过高导致
+    const highPriceItems = selected.filter(p => p.price > maxPerCapita);
+    if (highPriceItems.length > 0) {
+      // 有单价超过上限的商品，说明价格过滤失败
+      throw new Error(`当前预算下无法生成满足条件的套餐，建议：
+1. 调整预算金额（当前预算：${totalBudget}元）
+2. 切换资金来源类型（当前：${fundSource}）
+3. 手动选择商品
+
+详细原因：有 ${highPriceItems.length} 个商品单价超过人均上限（${maxPerCapita}元）。`);
+    } else {
+      // 商品单价合规，但组合后人均超标
+      throw new Error(`当前预算下无法生成满足条件的套餐，建议：
+1. 调整预算金额（当前预算：${totalBudget}元）
+2. 切换资金来源类型（当前：${fundSource}）
+3. 手动选择商品
+
+详细原因：组合后人均金额 ${perCapitaAmount.toFixed(2)} 元超过上限 ${maxPerCapita} 元。`);
+    }
+  }
+
+  // Step 4：汇总统计
 
   const platform832Amount = Math.round(
     items
@@ -228,6 +313,7 @@ export function generateProductList(
     platform832Amount,
     platform832Rate,
     hint832: HINT_832,
+    noMatchWarning,
   };
 }
 

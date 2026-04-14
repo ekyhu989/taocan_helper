@@ -1,5 +1,6 @@
 import React from 'react';
 import mockData from '../data/mockData';
+import { getExportSeal } from '../data/policies';
 
 const ProcurementReport = ({ 
   report, 
@@ -125,6 +126,60 @@ const ProcurementReport = ({
               </p>
             );
           })}
+          
+          {/* 政策版本校验签章 */}
+          <div className="mt-8 pt-6 border-t border-gray-300">
+            <div className="text-center text-gray-600 text-sm leading-relaxed font-mono">
+              {getExportSeal().split('\n').map((line, index) => {
+                const isSeparator = line.includes('──');
+                const isTitle = line.includes('政策版本校验签章');
+                const isStatus = line.includes('版本状态：');
+                
+                let className = "my-1";
+                if (isSeparator) {
+                  className = "my-1 text-gray-500";
+                } else if (isTitle) {
+                  className = "my-2 font-bold text-blue-700";
+                } else if (isStatus) {
+                  className = "my-1 text-green-600";
+                } else {
+                  className = "my-1 text-gray-700";
+                }
+                
+                return (
+                  <div key={index} className={className}>
+                    {line}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          
+          {/* 单位公章签章区域 */}
+          <div className="mt-8 pt-6 border-t border-gray-300">
+            <div className="text-center text-gray-800 text-sm leading-relaxed">
+              <div className="border border-dashed border-gray-400 rounded-md p-6 max-w-md mx-auto">
+                <div className="text-gray-500 mb-4 text-lg">（单位公章）</div>
+                <div className="space-y-3 text-left">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">申请部门：</span>
+                    <span className="font-medium">{extractDepartment(reportContent) || '______________'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">申 请 人：</span>
+                    <span className="font-medium">{extractApplicant(reportContent) || '______________'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">日　　期：</span>
+                    <span className="font-medium">{getCurrentDate()}</span>
+                  </div>
+                </div>
+                <div className="mt-6 text-xs text-gray-500 text-center">
+                  注：请在此处加盖单位公章
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       

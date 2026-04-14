@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import PolicyLibraryPage from './pages/PolicyLibraryPage';
 import ProductManagerPage from './pages/ProductManagerPage';
 import CompliancePage from './pages/CompliancePage';
+import DiagnosisPage from './pages/DiagnosisPage';
 import BasicInfoForm from './components/BasicInfoForm';
 import SolutionPreview from './components/SolutionPreview';
 import ProcurementReport from './components/ProcurementReport';
@@ -16,6 +17,8 @@ import { assembleReport, generateQuotationSheet } from './reportAssembler';
 import { validateBudget } from './budgetValidator';
 import { exportToWord, exportToPDF, generateExportFileName } from './utils/exportUtils';
 import { saveHistory } from './utils/historyStorage';
+import { SERVICE_MESSAGES } from './config/serviceConfig';
+import ContactServiceModal from './components/ContactServiceModal';
 import {
   saveSolutionForm,
   loadSolutionForm,
@@ -25,6 +28,9 @@ import {
   clearReportForm,
   debounce,
 } from './utils/formStorage';
+import { usePolicyVersion } from './hooks/usePolicyVersion';
+import DataBackupSettings from './components/DataBackupSettings';
+import DataRecoveryPage from './components/DataRecoveryPage';
 
 function App() {
   // 当前页面：'home'（首页）、'solution'（方案生成页）、'report'（公文生成页）、'compliance'（合规测算页）、'policy'（政策文库）、'product'（商品库）、'history'（历史方案）、'settings'（设置）
@@ -34,11 +40,20 @@ function App() {
   
   const [showProductManager, setShowProductManager] = useState(false);
   const [productsData, setProductsData] = useState([]);
-  
+  const [settingsTab, setSettingsTab] = useState('backup'); // 'backup' 或 'recovery'
+
   useEffect(() => {
     const products = loadProducts();
     setProductsData(products);
   }, [showProductManager]);
+
+  // 页面切换时刷新商品数据（修复商品库页与方案生成页数据同步 Bug）
+  useEffect(() => {
+    if (currentPage === 'solution' || currentPage === 'product') {
+      const products = loadProducts();
+      setProductsData(products);
+    }
+  }, [currentPage]);
   
   // 方案生成页表单数据
   const [solutionFormData, setSolutionFormData] = useState({
@@ -61,6 +76,7 @@ function App() {
   });
   
   // 状态管理
+  const { beforeAction } = usePolicyVersion();
   const [errorMessage, setErrorMessage] = useState('');
   const [productListResult, setProductListResult] = useState(null);
   const [reportResult, setReportResult] = useState(null);
@@ -73,6 +89,7 @@ function App() {
   const [showRestoreNotice, setShowRestoreNotice] = useState(false);
   const [showClearedNotice, setShowClearedNotice] = useState(false);
   const [activeDoc, setActiveDoc] = useState('report');
+  const [showContactModal, setShowContactModal] = useState(false);
 
   // ─────────────────────────────────────────────
   // 页面导航
@@ -207,6 +224,7 @@ function App() {
         solutionFormData.scene,
         solutionFormData.totalBudget,
         solutionFormData.headCount,
+        solutionFormData.fundSource,
         solutionFormData.budgetMode,
         solutionFormData.category
       );
@@ -302,6 +320,9 @@ function App() {
   };
 
   const handleExportWord = async () => {
+    // 版本校验拦截
+    if (!beforeAction()) return;
+    
     if (!reportResult?.body) {
       setErrorMessage('请先生成公文');
       return;
@@ -321,6 +342,9 @@ function App() {
   };
 
   const handleExportPDF = async () => {
+    // 版本校验拦截
+    if (!beforeAction()) return;
+    
     if (!reportResult?.body) {
       setErrorMessage('请先生成公文');
       return;
@@ -333,7 +357,7 @@ function App() {
       };
       
       const elementId = 'generated-report-content';
-      exportToPDF(elementId, mergedFormData);
+      exportToPDF(elementId, mergedFormData, reportResult.body);
     } catch (error) {
       console.error('PDF导出失败:', error);
       setErrorMessage(`PDF导出失败: ${error.message}`);
@@ -344,15 +368,9 @@ function App() {
     setCurrentPage('solution');
   };
 
-  const handleRegenerateSolution = () => {
-    setIsExampleMode(true);
-    setProductListResult(null);
-    setOriginalProductListResult(null);
-    setIsAdjusted(false);
-    setIsReportGenerated(false);
-    setReportResult(null);
-    setErrorMessage('');
-  };
+  // 注意：旧版 handleRegenerateSolution 已移除
+  // 导航栏和无匹配引导区的"重新生成"按钮统一绑定 handleGenerateSolution
+  // 该函数内部会重新调用 generateProductList 并刷新 productListResult
 
   const handleUpdateProductItems = (updatedItems) => {
     if (!productListResult) return;
@@ -447,6 +465,23 @@ function App() {
     totalBudget: solutionFormData.totalBudget
   } : null;
 
+  // 检测合规风险
+  const hasComplianceRisk = () => {
+    const count = Number(solutionFormData.headCount) || 0;
+    const budget = Number(solutionFormData.totalBudget) || 0;
+    const perCapita = count > 0 ? budget / count : 0;
+    
+    const totalAmount = productListResult?.totalAmount || 0;
+    const platform832Amount = productListResult?.platform832Amount || 0;
+    const platform832Rate = totalAmount > 0 ? platform832Amount / totalAmount : 0;
+
+    return perCapita > 2000 || perCapita > 500 || (platform832Rate < 0.3 && totalAmount > 0);
+  };
+
+  const handleFixCompliance = () => {
+    alert('一键整改功能将在后续版本完善！');
+  };
+
   const getPageAnimation = () => {
     if (pageDirection === 'forward') {
       return 'animate-slide-in-right';
@@ -479,8 +514,8 @@ function App() {
         </div>
       )}
 
-      {/* 历史方案和设置页（简单占位） */}
-      {(currentPage === 'history' || currentPage === 'settings') && (
+      {/* 历史方案页（简单占位） */}
+      {currentPage === 'history' && (
         <div className={`min-h-screen bg-gray-50 pb-24 ${getPageAnimation()}`}>
           <div className="bg-white shadow-sm">
             <div className="max-w-4xl mx-auto px-4 py-4">
@@ -492,7 +527,7 @@ function App() {
                   ←
                 </button>
                 <h1 className="text-xl font-bold text-gray-800">
-                  {currentPage === 'history' ? '历史方案' : '设置'}
+                  历史方案
                 </h1>
               </div>
             </div>
@@ -500,10 +535,71 @@ function App() {
           <div className="max-w-4xl mx-auto px-4 py-8">
             <div className="bg-white rounded-xl p-8 text-center">
               <p className="text-gray-500 text-lg">
-                {currentPage === 'history' ? '历史方案功能开发中...' : '设置功能开发中...'}
+                历史方案功能开发中...
               </p>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* 设置页（数据安全与恢复） */}
+      {currentPage === 'settings' && (
+        <div className={`min-h-screen bg-gray-50 pb-24 ${getPageAnimation()}`}>
+          <div className="bg-white shadow-sm">
+            <div className="max-w-6xl mx-auto px-4 py-4">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => handleNavigate('home')}
+                  className="p-2 hover:bg-gray-100 rounded-lg"
+                >
+                  ←
+                </button>
+                <h1 className="text-xl font-bold text-gray-800">
+                  数据安全与恢复
+                </h1>
+              </div>
+              
+              {/* 选项卡 */}
+              <div className="mt-4 flex space-x-2 border-b border-gray-200">
+                <button
+                  onClick={() => setSettingsTab('backup')}
+                  className={`px-4 py-2 font-medium text-sm transition-colors ${
+                    settingsTab === 'backup'
+                      ? 'text-blue-600 border-b-2 border-blue-600'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  🔒 数据备份
+                </button>
+                <button
+                  onClick={() => setSettingsTab('recovery')}
+                  className={`px-4 py-2 font-medium text-sm transition-colors ${
+                    settingsTab === 'recovery'
+                      ? 'text-blue-600 border-b-2 border-blue-600'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  🔄 数据恢复
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div className="max-w-6xl mx-auto px-4 py-8">
+            {settingsTab === 'backup' && <DataBackupSettings />}
+            {settingsTab === 'recovery' && <DataRecoveryPage />}
+          </div>
+        </div>
+      )}
+
+      {/* 合规诊断页 */}
+      {currentPage === 'diagnosis' && (
+        <div className={getPageAnimation()}>
+          <DiagnosisPage
+            formData={{ ...solutionFormData, ...reportFormData }}
+            onBack={() => handleNavigate('home')}
+            onFixCompliance={handleFixCompliance}
+          />
         </div>
       )}
 
@@ -533,11 +629,12 @@ function App() {
                   )}
                   {currentPage === 'solution' && productListResult && !isExampleMode && (
                     <button
-                      onClick={handleRegenerateSolution}
-                      className="flex items-center gap-2 px-3 md:px-4 py-2 min-h-[44px] bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors duration-200"
+                      onClick={handleGenerateSolution}
+                      disabled={loading}
+                      className="flex items-center gap-2 px-3 md:px-4 py-2 min-h-[44px] bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <span>↻</span>
-                      <span className="hidden sm:inline">重新生成</span>
+                      <span>{loading ? '⏳' : '↻'}</span>
+                      <span className="hidden sm:inline">{loading ? '生成中...' : '重新生成'}</span>
                     </button>
                   )}
                 </div>
@@ -556,23 +653,6 @@ function App() {
                       </div>
                     </div>
                   )}
-                  
-                  <div className="flex items-center justify-center gap-2">
-                    <button
-                      onClick={() => setShowHistory(true)}
-                      className="px-3 md:px-4 py-2 min-h-[44px] bg-amber-500 text-white font-medium rounded-lg hover:bg-amber-600 transition-colors"
-                    >
-                      <span>📋</span>
-                      <span className="hidden md:inline">历史方案</span>
-                    </button>
-                    <button
-                      onClick={() => handleNavigate('compliance')}
-                      className="px-3 md:px-4 py-2 min-h-[44px] bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition-colors"
-                    >
-                      <span>📊</span>
-                      <span className="hidden md:inline">合规测算</span>
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -607,6 +687,27 @@ function App() {
 
             {currentPage === 'solution' && (
               <div className="space-y-8">
+                {/* 优惠引导条 */}
+                <div className="max-w-4xl mx-auto">
+                  <div className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg">
+                    <div className="flex items-center justify-between flex-wrap gap-3">
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">💰</span>
+                        <div>
+                          <p className="font-bold text-amber-800">联系客服获取折扣优惠，最低5折起</p>
+                          <p className="text-sm text-amber-700">专业采购顾问为您定制最优方案</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setShowContactModal(true)}
+                        className="px-4 py-2 bg-amber-500 text-white font-medium rounded-lg hover:bg-amber-600 transition-colors"
+                      >
+                        📞 联系客服
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
                 <BasicInfoForm 
                   formData={solutionFormData}
                   onDataChange={handleSolutionFormDataChange}
@@ -621,7 +722,7 @@ function App() {
                       disabled={loading}
                       className="flex-1 sm:flex-none px-6 md:px-8 py-3 min-h-[44px] bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {isExampleMode ? '生成我的方案' : '重新生成方案'}
+                      {loading ? '⏳ 生成中...' : (isExampleMode ? '生成我的方案' : '重新生成方案')}
                     </button>
                     
                     {productListResult && !isExampleMode && (
@@ -634,6 +735,10 @@ function App() {
                       </button>
                     )}
                   </div>
+                  
+                  {errorMessage && currentPage === 'solution' && (
+                    <p className="mt-3 text-center text-sm text-red-600 font-medium">{errorMessage}</p>
+                  )}
                   
                   {isExampleMode && (
                     <p className="mt-4 text-center text-gray-600 text-sm">
@@ -655,6 +760,40 @@ function App() {
                   onAddProduct={handleAddProduct}
                   onResetSolution={handleResetSolution}
                 />
+
+                {/* 商品匹配不足引导 */}
+                {productListResult?.noMatchWarning && !isExampleMode && (
+                  <div className="max-w-4xl mx-auto mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <span className="text-xl mt-0.5">⚠️</span>
+                      <div className="flex-1">
+                        <p className="font-medium text-gray-800">
+                          {SERVICE_MESSAGES.schemeGenerator.title}
+                        </p>
+                        <ul className="mt-2 text-sm text-gray-600 space-y-1 list-disc list-inside">
+                          {SERVICE_MESSAGES.schemeGenerator.suggestions.map((s, i) => (
+                            <li key={i}>{s}</li>
+                          ))}
+                        </ul>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          <button
+                            onClick={handleGenerateSolution}
+                            disabled={loading}
+                            className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {loading ? '⏳ 生成中...' : SERVICE_MESSAGES.schemeGenerator.btnRegenerate}
+                          </button>
+                          <button
+                            onClick={() => setShowContactModal(true)}
+                            className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 transition-colors inline-flex items-center gap-1"
+                          >
+                            📞 {SERVICE_MESSAGES.schemeGenerator.btnContact}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -896,13 +1035,21 @@ function App() {
               onReuse={handleReuseHistory}
             />
           )}
+
+          {/* 联系客服弹窗（全局复用） */}
+          <ContactServiceModal
+            visible={showContactModal}
+            onClose={() => setShowContactModal(false)}
+          />
         </div>
       )}
 
-      {/* 底部导航栏（在首页外显示） */}
-      {currentPage !== 'product' && currentPage !== 'policy' && currentPage !== 'history' && currentPage !== 'settings' && (
-        <BottomNav currentPage={currentPage} onNavigate={handleNavigate} />
-      )}
+      {/* 底部导航栏 */}
+      <BottomNav 
+        currentPage={currentPage} 
+        onNavigate={handleNavigate}
+        hasComplianceRisk={hasComplianceRisk()}
+      />
     </div>
   );
 }

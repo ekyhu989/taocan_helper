@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import ProductForm from './ProductForm';
+import RecycleBin from './RecycleBin';
+import BatchOperationBar from './BatchOperationBar';
+import ContactServiceModal from './ContactServiceModal';
+import { SERVICE_MESSAGES } from '../config/serviceConfig';
+import { festivalTemplates, getFestivalTemplateNames } from '../data/festivalTemplates';
 import {
   loadProducts,
   saveProducts,
   resetToDefault,
   generateProductId,
+  loadDeletedProducts,
+  softDeleteProduct,
+  restoreProduct,
+  permanentDeleteProduct,
+  emptyRecycleBin,
+  sortProductsWith832Priority,
+  isProductExists,
 } from '../utils/productStorage';
 
 interface ProductManagerProps {
@@ -19,17 +31,27 @@ const sceneLabels: Record<string, string> = {
 
 const ProductManager: React.FC<ProductManagerProps> = ({ onClose }) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [deletedProducts, setDeletedProducts] = useState<any[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [deleteProduct, setDeleteProduct] = useState<Product | null>(null);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showRecycleBin, setShowRecycleBin] = useState(false);
+  const [showTemplateModal, setShowTemplateModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
 
   useEffect(() => {
     const loadedProducts = loadProducts();
-    setProducts(loadedProducts);
+    const sortedProducts = sortProductsWith832Priority(loadedProducts);
+    setProducts(sortedProducts);
+    
+    const loadedDeleted = loadDeletedProducts();
+    setDeletedProducts(loadedDeleted);
   }, []);
 
   const showSuccess = (message: string) => {
@@ -51,18 +73,20 @@ const ProductManager: React.FC<ProductManagerProps> = ({ onClose }) => {
     let updatedProducts;
     if (editingProduct) {
       updatedProducts = products.map(p =>
-        p.id === editingProduct.id ? { ...p, ...productData } : p
+        p.id === editingProduct.id ? { ...p, ...productData, updatedAt: new Date().toISOString() } : p
       );
       showSuccess('保存成功');
     } else {
       const newProduct: Product = {
         ...productData,
         id: generateProductId(),
+        updatedAt: new Date().toISOString(),
       } as Product;
       updatedProducts = [...products, newProduct];
       showSuccess('新增商品成功');
     }
-    setProducts(updatedProducts);
+    const sortedProducts = sortProductsWith832Priority(updatedProducts);
+    setProducts(sortedProducts);
     saveProducts(updatedProducts);
     setShowForm(false);
     setEditingProduct(null);
@@ -74,11 +98,36 @@ const ProductManager: React.FC<ProductManagerProps> = ({ onClose }) => {
 
   const handleDelete = () => {
     if (deleteProduct) {
-      const updatedProducts = products.filter(p => p.id !== deleteProduct.id);
-      setProducts(updatedProducts);
-      saveProducts(updatedProducts);
-      showSuccess('删除成功');
+      const updatedProducts = softDeleteProduct(deleteProduct.id);
+      const sortedProducts = sortProductsWith832Priority(updatedProducts);
+      setProducts(sortedProducts);
+      setDeletedProducts(loadDeletedProducts());
+      showSuccess('已移至回收站');
       setDeleteProduct(null);
+    }
+  };
+
+  const handleRestore = (productId: string) => {
+    const updatedProducts = restoreProduct(productId);
+    const sortedProducts = sortProductsWith832Priority(updatedProducts);
+    setProducts(sortedProducts);
+    setDeletedProducts(loadDeletedProducts());
+    showSuccess('已恢复');
+  };
+
+  const handlePermanentDelete = (productId: string) => {
+    if (window.confirm('确定要彻底删除此商品吗？此操作不可逆。')) {
+      const updatedDeleted = permanentDeleteProduct(productId);
+      setDeletedProducts(updatedDeleted);
+      showSuccess('已彻底删除');
+    }
+  };
+
+  const handleEmptyRecycleBin = () => {
+    if (window.confirm('确定要清空回收站吗？所有商品将永久删除。')) {
+      const updatedDeleted = emptyRecycleBin();
+      setDeletedProducts(updatedDeleted);
+      showSuccess('回收站已清空');
     }
   };
 
@@ -88,12 +137,100 @@ const ProductManager: React.FC<ProductManagerProps> = ({ onClose }) => {
 
   const handleReset = () => {
     const defaultProducts = resetToDefault();
-    setProducts(defaultProducts);
+    const sortedProducts = sortProductsWith832Priority(defaultProducts);
+    setProducts(sortedProducts);
+    setDeletedProducts([]);
     showSuccess('已恢复默认商品库');
     setShowResetConfirm(false);
   };
 
-  const filteredProducts = products.filter(product => {
+  const toggleSelection = (productId: string) => {
+    if (selectedProducts.includes(productId)) {
+      setSelectedProducts(selectedProducts.filter(id => id !== productId));
+    } else {
+      setSelectedProducts([...selectedProducts, productId]);
+    }
+  };
+
+  const toggleSelectAll = () => {
+    if (selectAll) {
+      setSelectedProducts([]);
+    } else {
+      setSelectedProducts(filteredProducts.map(p => p.id));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleClearSelection = () => {
+    setSelectedProducts([]);
+    setSelectAll(false);
+  };
+
+  const handleBatchUpdate = (multiplier: number) => {
+    const updatedProducts = products.map(p => {
+      if (selectedProducts.includes(p.id)) {
+        return {
+          ...p,
+          price: Number((p.price * multiplier).toFixed(2)),
+          updatedAt: new Date().toISOString(),
+        };
+      }
+      return p;
+    });
+    const sortedProducts = sortProductsWith832Priority(updatedProducts);
+    setProducts(sortedProducts);
+    saveProducts(updatedProducts);
+    setSelectedProducts([]);
+    setSelectAll(false);
+    showSuccess('批量调价成功');
+  };
+
+  const handleBatchDelete = () => {
+    if (window.confirm(`确定要删除选中的 ${selectedProducts.length} 个商品吗？它们将移至回收站。`)) {
+      let updatedProducts = [...products];
+      selectedProducts.forEach(id => {
+        updatedProducts = softDeleteProduct(id);
+      });
+      const sortedProducts = sortProductsWith832Priority(updatedProducts);
+      setProducts(sortedProducts);
+      setDeletedProducts(loadDeletedProducts());
+      setSelectedProducts([]);
+      setSelectAll(false);
+      showSuccess('批量删除成功');
+    }
+  };
+
+  const handleImportTemplate = (templateKey: string) => {
+    const template = festivalTemplates[templateKey];
+    let importedCount = 0;
+    
+    const updatedProducts = [...products];
+    template.products.forEach(templateProduct => {
+      if (!isProductExists(templateProduct.name, updatedProducts)) {
+        const newProduct: Product = {
+          id: generateProductId(),
+          name: templateProduct.name,
+          price: templateProduct.price,
+          unit: '份',
+          category: templateProduct.category || '食品',
+          category_tag: templateProduct.category || '食品',
+          scenes: ['holiday'],
+          is832: templateProduct.isPlatform832,
+          updatedAt: new Date().toISOString(),
+        };
+        updatedProducts.push(newProduct);
+        importedCount++;
+      }
+    });
+    
+    const sortedProducts = sortProductsWith832Priority(updatedProducts);
+    setProducts(sortedProducts);
+    saveProducts(updatedProducts);
+    setShowTemplateModal(false);
+    showSuccess(`已导入 ${importedCount} 个商品`);
+  };
+
+  const filteredProducts = sortProductsWith832Priority(products).filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = !categoryFilter || product.category === categoryFilter;
     return matchesSearch && matchesCategory;
@@ -124,8 +261,14 @@ const ProductManager: React.FC<ProductManagerProps> = ({ onClose }) => {
           <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
             <div className="flex items-center gap-4">
               <span className="text-gray-600">共 {filteredProducts.length} 个商品</span>
+              <button
+                onClick={() => setShowRecycleBin(true)}
+                className="px-3 py-1.5 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 text-sm"
+              >
+                🗑️ 回收站 ({deletedProducts.length})
+              </button>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <input
                 type="text"
                 placeholder="搜索商品名称"
@@ -146,18 +289,35 @@ const ProductManager: React.FC<ProductManagerProps> = ({ onClose }) => {
                 ))}
               </select>
               <button
-                onClick={handleAddProduct}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                onClick={() => setShowTemplateModal(true)}
+                className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
               >
-                + 新增商品
+                📦 导入模板
               </button>
             </div>
           </div>
 
-          <div className="flex-1 overflow-auto border border-gray-200 rounded-md">
+          {selectedProducts.length > 0 && (
+            <BatchOperationBar
+              selectedCount={selectedProducts.length}
+              onBatchUpdate={handleBatchUpdate}
+              onBatchDelete={handleBatchDelete}
+              onClearSelection={handleClearSelection}
+            />
+          )}
+
+          <div className="flex-1 overflow-auto border border-gray-200 rounded-md mt-4">
             <table className="w-full">
               <thead className="bg-blue-50 sticky top-0">
                 <tr>
+                  <th className="px-4 py-3 text-center text-sm font-semibold text-blue-800 border-b border-blue-200 w-12">
+                    <input
+                      type="checkbox"
+                      checked={selectAll && filteredProducts.length > 0}
+                      onChange={toggleSelectAll}
+                      className="w-4 h-4"
+                    />
+                  </th>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-blue-800 border-b border-blue-200">
                     商品名称
                   </th>
@@ -184,6 +344,14 @@ const ProductManager: React.FC<ProductManagerProps> = ({ onClose }) => {
               <tbody className="divide-y divide-gray-200">
                 {filteredProducts.map(product => (
                   <tr key={product.id} className="hover:bg-gray-50">
+                    <td className="px-4 py-3 text-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedProducts.includes(product.id)}
+                        onChange={() => toggleSelection(product.id)}
+                        className="w-4 h-4"
+                      />
+                    </td>
                     <td className="px-4 py-3">
                       <span className="font-medium text-gray-800">{product.name}</span>
                     </td>
@@ -247,6 +415,27 @@ const ProductManager: React.FC<ProductManagerProps> = ({ onClose }) => {
               ⚠️ 恢复默认商品库
             </button>
           </div>
+
+          {/* 客服引导区域 — 替代原有的"新增商品"功能 */}
+          <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg">
+            <div className="flex items-start gap-3">
+              <span className="text-2xl mt-0.5">💡</span>
+              <div className="flex-1">
+                <p className="font-medium text-gray-800">
+                  {SERVICE_MESSAGES.productLibrary.title}
+                </p>
+                <p className="text-sm text-gray-600 mt-1">
+                  {SERVICE_MESSAGES.productLibrary.desc}
+                </p>
+                <button
+                  onClick={() => setShowContactModal(true)}
+                  className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors inline-flex items-center gap-2"
+                >
+                  📞 {SERVICE_MESSAGES.productLibrary.btnText}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -268,7 +457,7 @@ const ProductManager: React.FC<ProductManagerProps> = ({ onClose }) => {
             <p className="text-gray-600 mb-6">
               确定要删除商品 "<span className="font-medium">{deleteProduct.name}</span>" 吗？
               <br />
-              <span className="text-sm text-yellow-600">此操作不可逆，请谨慎操作。</span>
+              <span className="text-sm text-yellow-600">商品将移至回收站，7天后自动删除。</span>
             </p>
             <div className="flex gap-3">
               <button
@@ -314,6 +503,52 @@ const ProductManager: React.FC<ProductManagerProps> = ({ onClose }) => {
           </div>
         </div>
       )}
+
+      {showRecycleBin && (
+        <RecycleBin
+          products={deletedProducts}
+          onRestore={handleRestore}
+          onPermanentDelete={handlePermanentDelete}
+          onEmpty={handleEmptyRecycleBin}
+          onClose={() => setShowRecycleBin(false)}
+        />
+      )}
+
+      {showTemplateModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl max-w-md w-full">
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <h3 className="text-lg font-bold text-gray-800">选择节日模板</h3>
+              <button
+                onClick={() => setShowTemplateModal(false)}
+                className="p-2 hover:bg-gray-100 rounded-lg"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-4 space-y-3">
+              {getFestivalTemplateNames().map(({ key, name }) => (
+                <button
+                  key={key}
+                  onClick={() => handleImportTemplate(key)}
+                  className="w-full px-4 py-3 text-left border border-gray-200 rounded-lg hover:bg-blue-50 hover:border-blue-300 transition-colors"
+                >
+                  <div className="font-medium text-gray-800">{name}</div>
+                  <div className="text-sm text-gray-500 mt-1">
+                    包含 {festivalTemplates[key].products.length} 个商品
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 联系客服弹窗 */}
+      <ContactServiceModal
+        visible={showContactModal}
+        onClose={() => setShowContactModal(false)}
+      />
     </div>
   );
 };

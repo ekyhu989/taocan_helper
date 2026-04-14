@@ -29,7 +29,7 @@
 import type { ProductListResult, ReportResult, Scene, UserInput, PurchaseItem } from './types';
 import { toChineseAmount } from './budgetValidator';
 import { formatItemList } from './productListGenerator';
-import { policyReferenceText } from './data/policyData';
+import { TEMPLATES, generatePolicyReference } from './data/reportTemplates';
 
 // ─────────────────────────────────────────────
 // 场景映射
@@ -64,119 +64,9 @@ const getFestivalLabel = (festival: string | undefined): string => {
 };
 
 // ─────────────────────────────────────────────
-// 三套公文模板（对应模板库 §5.1 / §5.2 / §5.3）
-// 占位符全部使用 {{key}} 格式，最终统一替换
+// 三套公文模板已移至 src/data/reportTemplates.ts
+// 通过 TEMPLATES 对象访问，结构不变
 // ─────────────────────────────────────────────
-
-const TEMPLATE_HOLIDAY = `关于{{year}}年{{festival}}职工慰问品采购方案的申请报告
-
-致：{{unit}}工会委员会/财务部
-
-一、申请事由
-
-值此{{festival}}来临之际，为体现公司对职工的关怀，增强团队凝聚力，{{policyReference}}拟开展节日慰问活动。
-
-二、慰问对象及标准
-
-1. 慰问对象：{{unit}}全体在职职工（含劳务派遣人员），共计{{headCount}}人。
-2. 预算标准：
-   · 人均标准：人民币{{perCapita}}元/人（全年累计不超过2000元/人）。
-   · 总预算：人民币{{totalBudget}}元（大写：{{chineseAmount}}）。
-   · 合规说明：本次人均标准符合《新疆维吾尔自治区基层工会经费收支管理办法实施细则》（新工办〔2019〕3号）2025年补充通知要求。
-
-三、采购方案
-
-本次采购优先通过832平台采购脱贫地区农副产品，坚持"合规、实用、普惠"原则。具体品单如下：
-
-{{itemList}}
-
-   · 消费帮扶说明：本次方案中，832平台脱贫地区农副产品金额占比约{{platform832Rate}}，符合《关于做好2025年政府采购脱贫地区农副产品工作的通知》（新财购〔2025〕2号）文件关于"工会慰问品中脱贫地区农副产品占比≥30%"的要求。
-
-四、发放方式
-
-由各部门统一领取发放，职工签字确认。
-
-{{hint832}}
-
-妥否，请批示。
-
-申请部门：{{department}}
-申请人：{{applicant}}
-日期：{{year}}年  月  日`;
-
-const TEMPLATE_ACTIVITY = `关于{{year}}年"{{festival}}"职工活动物资采购的申请报告
-
-致：{{unit}}领导/财务部
-
-一、申请背景
-
-为保障一线职工身体健康/丰富职工文化生活，切实做好{{festival}}后勤保障工作，{{policyReference}}特申请采购一批相关物资。
-
-二、采购需求
-
-1. 使用范围：{{unit}}{{department}}一线职工，预计{{headCount}}人。
-2. 采购预算：
-   · 预计总费用：人民币{{totalBudget}}元（大写：{{chineseAmount}}）。
-   · 人均标准：人民币{{perCapita}}元/人（全年累计不超过2000元/人）。
-   · 资金来源：{{fundSource}}，其中832平台脱贫地区农副产品采购占比符合新财购〔2025〕2号文件要求。
-
-三、拟采购物资清单
-
-本次采购优先通过832平台采购脱贫地区农副产品，主要包含食品饮料及相关生活物资，具体如下：
-
-{{itemList}}
-
-四、采购渠道
-
-拟优先选用832平台产品，确保食品安全与价格公道。
-本次方案中，832平台脱贫地区农副产品金额占比约{{platform832Rate}}，符合《关于做好2025年政府采购脱贫地区农副产品工作的通知》（新财购〔2025〕2号）文件要求。
-
-{{hint832}}
-
-以上申请，请予审核批准。
-
-申请人：{{applicant}}
-日期：{{year}}年  月  日`;
-
-const TEMPLATE_CARE = `关于{{unit}}职工慰问品采购的申请报告
-
-致：{{unit}}工会
-
-一、慰问事由
-
-1. 事由类型：{{festival}}
-2. 慰问对象：{{department}}职工，共{{headCount}}人。
-3. 政策依据：{{policyReference}}
-
-二、慰问标准
-
-根据《新疆维吾尔自治区基层工会经费收支管理办法实施细则》（新工办〔2019〕3号）及2025年补充通知相关规定，拟申请慰问标准为：
-· 人均金额：人民币{{perCapita}}元（全年累计不超过2000元/人）。
-· 合计金额：人民币{{totalBudget}}元（大写：{{chineseAmount}}）。
-· 资金来源：{{fundSource}}，其中832平台脱贫地区农副产品采购占比符合新财购〔2025〕2号文件要求。
-
-三、拟购方案
-
-拟优先通过832平台采购以下脱贫地区农副产品作为慰问：
-
-{{itemList}}
-
-本次方案中，832平台脱贫地区农副产品金额占比约{{platform832Rate}}，符合政策要求。
-
-{{hint832}}
-
-特此申请，望批准。
-
-申请部门：{{department}}
-申请人：{{applicant}}
-日期：{{year}}年  月  日`;
-
-/** 场景 → 模板 */
-const TEMPLATES: Record<Scene, string> = {
-  holiday: TEMPLATE_HOLIDAY,
-  activity: TEMPLATE_ACTIVITY,
-  care: TEMPLATE_CARE,
-};
 
 // ─────────────────────────────────────────────
 // 占位符替换工具
@@ -251,7 +141,7 @@ export function assembleReport(
     department,
     applicant,
     fundSource,
-    policyReference: policyReferenceText,  // P5：政策依据段落
+    policyReference: generatePolicyReference(),  // P5：政策依据段落（统一引用标准）
   };
 
   // 填充模板

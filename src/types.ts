@@ -77,6 +77,7 @@ export interface ProductListResult {
   platform832Amount: number; // 832平台商品合计金额
   platform832Rate: number;   // 832商品占比（0~1）
   hint832: string;           // 消费帮扶提示文案
+  noMatchWarning?: string;   // 商品库无匹配时的警告文案（可选）
 }
 
 // ─────────────────────────────────────────────

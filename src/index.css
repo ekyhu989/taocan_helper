@@ -118,9 +118,9 @@ input, select, textarea {
     display: block !important;
   }
 
-  /* 页面设置 */
+  /* 页面设置 - 机关单位公文标准格式 */
   @page {
-    margin: 2cm;
+    margin: 2.54cm 3.17cm;  /* 上下2.54cm，左右3.17cm */
     size: A4;
   }
 
@@ -130,17 +130,18 @@ input, select, textarea {
     print-color-adjust: exact !important;
   }
 
-  /* 字体大小 */
+  /* 字体大小 - 公文规范 */
   body {
-    font-size: 12pt;
-    line-height: 1.6;
+    font-size: 16pt;      /* 三号字体（16磅） */
+    line-height: 28pt;    /* 固定值28磅行距 */
   }
 
-  /* 标题样式 */
+  /* 标题样式 - 公文二号标题 */
   h1 {
-    font-size: 18pt;
-    text-align: center;
-    margin-bottom: 20pt;
+    font-size: 22pt;      /* 二号字体（22磅） */
+    font-weight: bold;    /* 加粗 */
+    text-align: center;   /* 居中 */
+    margin-bottom: 24pt;  /* 适当间距 */
   }
 
   h2 {
@@ -173,11 +174,81 @@ input, select, textarea {
     padding: 0 !important;
   }
 
-  /* 报告内容调整 */
+  /* === 报告内容调整 */
   #report-content,
   #example-report-content,
   #generated-report-content {
     border: none !important;
     padding: 0 !important;
   }
+}
+
+/* === 大字模式样式 === */
+.large-text-mode .large-text\:text-\[24px\],
+.large-text-mode .large-text-amount {
+  font-size: 24px !important;
+  font-weight: bold !important;
+}
+
+.large-text-mode .large-text\:text-\[20px\],
+.large-text-mode .large-text-price {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+}
+
+.large-text-mode .large-text\:text-\[18px\],
+.large-text-mode .large-text-hint {
+  font-size: 18px !important;
+}
+
+.large-text-mode .large-text\:text-\[18px\],
+.large-text-mode .large-text-button {
+  font-size: 18px !important;
+  padding: 14px 20px !important;
+}
+
+.large-text-mode .large-text-progress {
+  height: 20px !important;
+}
+
+.large-text-mode .large-text-table th,
+.large-text-mode .large-text-table td {
+  font-size: 16px !important;
+  padding: 16px !important;
+}
+
+.large-text-mode .large-text-input input,
+.large-text-mode .large-text-input select,
+.large-text-mode .large-text-input textarea {
+  font-size: 18px !important;
+  padding: 14px !important;
+}
+
+.large-text-mode .large-text-card {
+  padding: 24px !important;
+}
+
+.large-text-mode .large-text-label {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+
+.large-text-mode .large-text-value {
+  font-size: 20px !important;
+  font-weight: bold !important;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
 }
