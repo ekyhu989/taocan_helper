@@ -1,24 +1,24 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import HomePage from './pages/HomePage';
-import PolicyLibraryPage from './pages/PolicyLibraryPage';
-import ProductManagerPage from './pages/ProductManagerPage';
-import CompliancePage from './pages/CompliancePage';
-import DiagnosisPage from './pages/DiagnosisPage';
-import BasicInfoForm from './components/BasicInfoForm';
-import SolutionPreview from './components/SolutionPreview';
-import ProcurementReport from './components/ProcurementReport';
-import QuotationPreview from './components/QuotationPreview';
-import HistoryManager from './components/HistoryManager';
-import BottomNav from './components/BottomNav';
+import HomePage from './pages/desktop/HomePage';
+import PolicyLibraryPage from './pages/desktop/PolicyLibraryPage';
+import ProductManagerPage from './pages/desktop/ProductManagerPage';
+import CompliancePage from './pages/desktop/CompliancePage';
+import DiagnosisPage from './pages/desktop/DiagnosisPage';
+import BasicInfoForm from './components/desktop/BasicInfoForm';
+import SolutionPreview from './components/desktop/SolutionPreview';
+import ProcurementReport from './components/desktop/ProcurementReport';
+import QuotationPreview from './components/desktop/QuotationPreview';
+import HistoryManager from './components/desktop/HistoryManager';
+import BottomNav from './components/desktop/BottomNav';
 import mockData from './data/mockData';
-import { loadProducts } from './utils/productStorage';
-import { generateProductList, recalculateSolution } from './productListGenerator';
-import { assembleReport, generateQuotationSheet } from './reportAssembler';
-import { validateBudget } from './budgetValidator';
-import { exportToWord, exportToPDF, generateExportFileName } from './utils/exportUtils';
-import { saveHistory } from './utils/historyStorage';
+import { loadProducts } from './utils/helpers/productStorage';
+import { generateProductList, recalculateSolution } from './utils/algorithm/productListGenerator';
+import { assembleReport, generateQuotationSheet } from './utils/helpers/reportAssembler';
+import { validateBudget } from './utils/compliance/budgetValidator';
+import { exportToWord, exportToPDF, generateExportFileName } from './utils/helpers/exportUtils';
+import { saveHistory } from './utils/helpers/historyStorage';
 import { SERVICE_MESSAGES } from './config/serviceConfig';
-import ContactServiceModal from './components/ContactServiceModal';
+import ContactServiceModal from './components/desktop/ContactServiceModal';
 import {
   saveSolutionForm,
   loadSolutionForm,
@@ -27,10 +27,10 @@ import {
   clearSolutionForm,
   clearReportForm,
   debounce,
-} from './utils/formStorage';
+} from './utils/helpers/formStorage';
 import { usePolicyVersion } from './hooks/usePolicyVersion';
-import DataBackupSettings from './components/DataBackupSettings';
-import DataRecoveryPage from './components/DataRecoveryPage';
+import DataBackupSettings from './components/desktop/DataBackupSettings';
+import DataRecoveryPage from './pages/desktop/DataRecoveryPage';
 
 function App() {
   // 当前页面：'home'（首页）、'solution'（方案生成页）、'report'（公文生成页）、'compliance'（合规测算页）、'policy'（政策文库）、'product'（商品库）、'history'（历史方案）、'settings'（设置）

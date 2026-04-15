@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { POLICY_VERSION, checkPolicyVersion, confirmPolicyVersion } from '../data/policies';
-import PolicyUpdateModal from '../components/PolicyUpdateModal';
+import PolicyUpdateModal from '../components/desktop/PolicyUpdateModal';
 
 /**
  * 政策版本校验 Hook
