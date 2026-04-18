@@ -27,12 +27,10 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: {
-          // 第三方库单独打包
           vendor: ['react', 'react-dom'],
-          // UI组件库单独打包
           ui: ['@cloudbase/js-sdk'],
-          // 工具函数单独打包
-          utils: ['zustand', 'html2pdf.js', 'xlsx']
+          pdf: ['html2pdf.js'],
+          docx: ['docx', 'file-saver']
         },
         // 文件名优化
         chunkFileNames: 'assets/[name]-[hash].js',
@@ -64,7 +62,8 @@ export default defineConfig(({ mode }) => ({
       '@cloudbase/js-sdk',
       'zustand',
       'html2pdf.js',
-      'xlsx'
+      'docx',
+      'file-saver'
     ],
     exclude: []
   },

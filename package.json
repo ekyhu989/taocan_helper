@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "AI采购方案生成工具",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "npx vite",
     "build": "npx vite build",

@@ -12,8 +12,7 @@ import { generateProductList } from '../productListGenerator';
 import { validateBudget } from '../budgetValidator';
 import type { UserInput, Scene } from '../types';
 
-// 使用 require 导入 JSON，避免 TypeScript 模块解析问题
-const products = require('../data/products.json');
+import products from '../data/products.json';
 
 /**
  * 生成报告的入口函数
