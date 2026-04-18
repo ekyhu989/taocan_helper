@@ -1,0 +1,254 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === 页面切换动画 === */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 300ms ease-in-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 300ms ease-in-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 200ms ease-in-out forwards;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === 安全区域适配 === */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* === 触摸优化 === */
+@media (pointer: coarse) {
+  input, select, button {
+    min-height: 44px;
+  }
+  
+  table td, table th {
+    min-height: 48px;
+  }
+}
+
+/* === 防止iOS聚焦时自动缩放 === */
+input, select, textarea {
+  font-size: 16px;
+}
+
+/* === 表格横向滚动优化 === */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.table-responsive::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+/* === 打印样式 === */
+@media print {
+  /* 隐藏不需要的元素 */
+  .no-print,
+  button,
+  .btn,
+  nav,
+  .nav,
+  .alert,
+  .notification,
+  .shadow-md,
+  .rounded-lg,
+  .border-b {
+    display: none !important;
+  }
+
+  /* 确保打印区域可见 */
+  .print-only,
+  #report-content,
+  #example-report-content,
+  #generated-report-content {
+    display: block !important;
+  }
+
+  /* 页面设置 - 机关单位公文标准格式 */
+  @page {
+    margin: 2.54cm 3.17cm;  /* 上下2.54cm，左右3.17cm */
+    size: A4;
+  }
+
+  /* 背景色和边框保留 */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 字体大小 - 公文规范 */
+  body {
+    font-size: 16pt;      /* 三号字体（16磅） */
+    line-height: 28pt;    /* 固定值28磅行距 */
+  }
+
+  /* 标题样式 - 公文二号标题 */
+  h1 {
+    font-size: 22pt;      /* 二号字体（22磅） */
+    font-weight: bold;    /* 加粗 */
+    text-align: center;   /* 居中 */
+    margin-bottom: 24pt;  /* 适当间距 */
+  }
+
+  h2 {
+    font-size: 14pt;
+    margin-top: 16pt;
+    margin-bottom: 8pt;
+  }
+
+  /* 段落样式 */
+  p {
+    margin-bottom: 8pt;
+    text-indent: 2em;
+  }
+
+  /* 避免元素跨页断裂 */
+  table, tr, td, .no-page-break {
+    page-break-inside: avoid;
+  }
+
+  /* 强制分页点 */
+  .page-break {
+    page-break-after: always;
+  }
+
+  /* 确保卡片在打印时没有阴影和圆角 */
+  .bg-white {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  /* === 报告内容调整 */
+  #report-content,
+  #example-report-content,
+  #generated-report-content {
+    border: none !important;
+    padding: 0 !important;
+  }
+}
+
+/* === 大字模式样式 === */
+.large-text-mode .large-text\:text-\[24px\],
+.large-text-mode .large-text-amount {
+  font-size: 24px !important;
+  font-weight: bold !important;
+}
+
+.large-text-mode .large-text\:text-\[20px\],
+.large-text-mode .large-text-price {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+}
+
+.large-text-mode .large-text\:text-\[18px\],
+.large-text-mode .large-text-hint {
+  font-size: 18px !important;
+}
+
+.large-text-mode .large-text\:text-\[18px\],
+.large-text-mode .large-text-button {
+  font-size: 18px !important;
+  padding: 14px 20px !important;
+}
+
+.large-text-mode .large-text-progress {
+  height: 20px !important;
+}
+
+.large-text-mode .large-text-table th,
+.large-text-mode .large-text-table td {
+  font-size: 16px !important;
+  padding: 16px !important;
+}
+
+.large-text-mode .large-text-input input,
+.large-text-mode .large-text-input select,
+.large-text-mode .large-text-input textarea {
+  font-size: 18px !important;
+  padding: 14px !important;
+}
+
+.large-text-mode .large-text-card {
+  padding: 24px !important;
+}
+
+.large-text-mode .large-text-label {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+
+.large-text-mode .large-text-value {
+  font-size: 20px !important;
+  font-weight: bold !important;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}

@@ -1,0 +1,122 @@
+{
+  "version": 3,
+  "name": "taocang-helper-v2",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/assets/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/(.*).(js|css)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/(.*).(jpg|jpeg|png|gif|ico|svg|webp)",
+      "headers": {
+        "Cache-Control": "public, max-age=2592000"
+      }
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options", 
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
+        }
+      ]
+    }
+  ],
+  "env": {
+    "VITE_APP_NAME": "智能采购助手V2.0",
+    "VITE_APP_VERSION": "2.0.0",
+    "VITE_APP_ENV": "production",
+    "VITE_API_BASE_URL": "https://api.taocang.com",
+    "VITE_CLOUDBASE_ENV_ID": "taocang-prod",
+    "VITE_FEATURE_EXPORT": "true",
+    "VITE_FEATURE_DUAL_VIEW": "true",
+    "VITE_FEATURE_ANNUAL_DATA": "true",
+    "VITE_LAZY_LOAD_ENABLED": "true",
+    "VITE_CACHE_ENABLED": "true"
+  },
+  "build": {
+    "env": {
+      "VITE_APP_ENV": "production"
+    }
+  },
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 30
+    }
+  },
+  "regions": ["hkg1"],
+  "public": false,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/scheme",
+      "destination": "/"
+    },
+    {
+      "source": "/product",
+      "destination": "/"
+    },
+    {
+      "source": "/export",
+      "destination": "/"
+    }
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "develop": true
+    },
+    "autoAlias": true
+  },
+  "alias": [
+    "taocang-helper-v2.vercel.app",
+    "staging.taocang.com",
+    "dev.taocang.com"
+  ]
+}
