@@ -1,42 +1,26 @@
 {
-  "version": 3,
+  "version": 2,
   "name": "taocang-helper-v2",
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
+    { "src": "/api/(.*)", "dest": "/api/$1" },
     {
       "src": "/(.*)\\.(js|css|jpg|jpeg|png|gif|ico|svg|webp)",
-      "headers": {
-        "Cache-Control": "public, max-age=86400, s-maxage=31536000, immutable"
-      }
+      "headers": { "Cache-Control": "public, max-age=86400, s-maxage=31536000, immutable" }
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/index.html",
+      "conditions": [{"missing": ["/api/*"], "missing": ["/*.js", "/*.css", "/*.png"]}]
     }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options", 
-          "value": "DENY"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Strict-Transport-Security",
-          "value": "max-age=31536000"
-        },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Strict-Transport-Security", "value": "max-age=31536000" },
         {
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; script-src 'self' https://api.taocang.com 'unsafe-inline' 'strict-dynamic'; style-src 'self' 'unsafe-inline'; font-src 'self' data: https://cdn.taocang.com; img-src 'self' data: https://cdn.taocang.com; connect-src 'self' https://api.taocang.com; frame-src 'none'; object-src 'none'; upgrade-insecure-requests"
@@ -44,11 +28,6 @@
       ]
     }
   ],
-  "build": {
-    "command": "vite build",
-    "outputDirectory": "dist",
-    "installCommand": "npm install"
-  },
   "functions": {
     "api/*.js": {
       "maxDuration": 10,
@@ -59,35 +38,14 @@
   "public": true,
   "cleanUrls": true,
   "trailingSlash": false,
-
   "redirects": [
-    {
-      "source": "/scheme",
-      "destination": "/",
-      "statusCode": 308
-    },
-    {
-      "source": "/product",
-      "destination": "/",
-      "statusCode": 308
-    },
-    {
-      "source": "/export",
-      "destination": "/",
-      "statusCode": 308
-    }
+    { "source": "/scheme", "destination": "/", "statusCode": 308 },
+    { "source": "/product", "destination": "/", "statusCode": 308 },
+    { "source": "/export", "destination": "/", "statusCode": 308 }
   ],
   "git": {
-    "deploymentEnabled": {
-      "main": true,
-      "develop": true
-    },
+    "deploymentEnabled": { "main": true, "develop": true },
     "autoAlias": true
   },
-  "alias": [
-    "taocang-helper-v2.vercel.app",
-    "staging.taocang.com",
-    "dev.taocang.com",
-    "prod.taocang.com"
-  ]
+  "alias": ["taocang-helper-v2.vercel.app", "staging.taocang.com", "dev.taocang.com", "prod.taocang.com"]
 }
