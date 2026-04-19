@@ -9,8 +9,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html",
-      "conditions": [{"missing": ["/api/*"], "missing": ["/*.js", "/*.css", "/*.png"]}]
+      "dest": "/index.html"
     }
   ],
   "headers": [
