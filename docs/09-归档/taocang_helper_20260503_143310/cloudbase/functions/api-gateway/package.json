@@ -1,0 +1,27 @@
+{
+  "name": "taocang-api-gateway",
+  "version": "2.0.0",
+  "description": "智能采购助手V2.0 API网关",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node local-dev.js"
+  },
+  "dependencies": {
+    "@cloudbase/node-sdk": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "keywords": [
+    "cloudbase",
+    "api",
+    "taocang",
+    "procurement"
+  ],
+  "author": "Taocang Team",
+  "license": "MIT"
+}

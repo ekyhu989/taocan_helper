@@ -1,0 +1,46 @@
+---
+name: release-planner
+description: 发布迭代规划器。制定发布计划、生成发布日志、规划下一迭代任务。
+status: placeholder
+source: github:ruvnet/github-release-management
+github_url: https://github.com/ruvnet/github-release-management
+last_updated: 2026-05-01
+---
+
+# 发布迭代规划器（ReleasePlanner）
+
+> **⚠️ 状态**: 占位文件 - 待下载GitHub原版  
+> **📦 来源**: https://github.com/ruvnet/github-release-management  
+> **📅 计划下载**: 2026-05-XX
+
+## 🎯 技能定位
+
+制定发布计划、生成发布日志、规划下一迭代任务
+
+## 📥 输入
+
+- 问题修复记录
+- 功能完成情况
+- 用户反馈
+
+## 📤 输出
+
+- 发布日志
+- 迭代规划
+- 遗留问题清单
+
+## 🔗 上下游衔接
+
+- 上游：IssueFixer
+- 下游：无（最终环节）
+
+## 📝 待执行操作
+
+1. 从GitHub下载原版SKILL.md
+2. 替换本占位文件
+3. 下载references/和scripts/目录（如有）
+
+---
+
+**创建时间**: 2026-05-01  
+**版本**: 0.1.0 (占位)

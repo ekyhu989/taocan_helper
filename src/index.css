@@ -1,0 +1,7 @@
+/* 引入设计令牌和全局样式 - 必须在@tailwind之前 */
+@import './styles/tokens.css';
+@import './styles/global.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

@@ -1,0 +1,149 @@
+{
+  "version": "2.0.0",
+  "description": "任务路由匹配配置 - 用于精准扫描文件，避免token浪费",
+  "last_updated": "2026-05-01",
+  
+  "workflow_stages": {
+    "stages": ["需求", "设计", "方案", "计划", "执行", "审查", "修复", "修复验证", "发布"],
+    "stage_gate_rules": {
+      "must_pass_review": true,
+      "no_skip_allowed": true,
+      "no_reverse_allowed": true
+    },
+    "stage_output_requirements": {
+      "需求": "标准化需求规格说明书",
+      "设计": "正式设计规范文档",
+      "方案": "最终落地设计方案",
+      "计划": "分阶段执行计划表",
+      "执行": "环节交付成果",
+      "审查": "质量审查报告（独立QA）",
+      "修复": "问题修复记录+自测报告",
+      "修复验证": "QA验证报告+回归测试结果",
+      "发布": "发布日志+迭代规划"
+    }
+  },
+  "routes": [
+    {
+      "id": "R001",
+      "name": "支付回调Bug修复",
+      "keywords": ["pay-callback", "支付回调", "签名验证"],
+      "scan": [
+        "src/cloudfunctions/pay-callback/**",
+        "src/cloudfunctions/common/**"
+      ],
+      "context_budget": "20%",
+      "task_size": "small"
+    },
+    {
+      "id": "R002",
+      "name": "用户登录功能",
+      "keywords": ["login", "登录", "认证"],
+      "scan": [
+        "src/cloudfunctions/user-login/**",
+        "src/cloudfunctions/common/**",
+        "src/miniapp/pages/login/**"
+      ],
+      "context_budget": "25%",
+      "task_size": "medium"
+    },
+    {
+      "id": "R003",
+      "name": "数据库迁移",
+      "keywords": ["database", "数据库", "迁移", "migration"],
+      "scan": [
+        "src/cloudfunctions/seed-database/**",
+        "src/cloudfunctions/common/database.js",
+        "docs/02-设计与规范/数据库设计.md"
+      ],
+      "context_budget": "20%",
+      "task_size": "small"
+    },
+    {
+      "id": "R004",
+      "name": "短信营销功能",
+      "keywords": ["sms", "短信", "营销"],
+      "scan": [
+        "src/cloudfunctions/admin-send-sms/**",
+        "src/cloudfunctions/admin-get-sms-logs/**",
+        "src/admin/src/views/sms/**",
+        "docs/03-业务模块/短信营销/**"
+      ],
+      "context_budget": "30%",
+      "task_size": "medium"
+    },
+    {
+      "id": "R005",
+      "name": "云函数部署",
+      "keywords": ["deploy", "部署", "云函数"],
+      "scan": [
+        "src/cloudfunctions/{function_name}/**",
+        "src/cloudfunctions/_deploy/**",
+        "docs/05-经验知识库/云函数部署实战经验.md"
+      ],
+      "context_budget": "20%",
+      "task_size": "small"
+    },
+    {
+      "id": "R006",
+      "name": "UI样式优化",
+      "keywords": ["UI", "样式", "CSS", "样式优化"],
+      "scan": [
+        "src/miniapp/pages/{page_name}/**",
+        "src/miniapp/app.wxss",
+        "docs/02-设计与规范/UI设计规范.md"
+      ],
+      "context_budget": "15%",
+      "task_size": "small"
+    },
+    {
+      "id": "R007",
+      "name": "PRD编写",
+      "keywords": ["PRD", "需求", "产品"],
+      "scan": [
+        "docs/01-需求文档/**",
+        "docs/03-业务模块/**",
+        "docs/02-设计与规范/技术架构设计.md"
+      ],
+      "context_budget": "25%",
+      "task_size": "medium"
+    },
+    {
+      "id": "R008",
+      "name": "全局性能优化",
+      "keywords": ["performance", "性能", "优化", "全局"],
+      "scan": [
+        "**/*"
+      ],
+      "context_budget": "50%",
+      "task_size": "large"
+    },
+    {
+      "id": "R009",
+      "name": "版本发布",
+      "keywords": ["release", "版本", "发布"],
+      "scan": [
+        "docs/03-业务模块/**",
+        "src/cloudfunctions/**",
+        "src/miniapp/**",
+        "src/admin/**"
+      ],
+      "context_budget": "45%",
+      "task_size": "large"
+    }
+  ],
+  "default_route": {
+    "name": "默认路由（未匹配）",
+    "instruction": "请根据任务描述智能选择需要扫描的文件和文档，避免全盘扫描。不确定时询问用户。",
+    "context_budget": "25%",
+    "task_size": "medium"
+  },
+  "rules": {
+    "max_context_budget": "50%",
+    "min_context_budget": "15%",
+    "always_load": [
+      ".agent/skills/hallucination-prevention.md",
+      ".agent/skills/context-budget.md",
+      ".workbuddy/knowledge/api-index.md"
+    ]
+  }
+}
