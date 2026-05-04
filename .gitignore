@@ -38,3 +38,6 @@ logs/
 # 数据库
 *.sqlite
 *.db
+
+# V2.0归档目录（仅在GitHub保存，本地清理）
+docs/09-归档/taocang_helper_v2_文档归档/

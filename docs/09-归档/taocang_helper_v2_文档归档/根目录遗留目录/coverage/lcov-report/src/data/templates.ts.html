@@ -1,0 +1,1810 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for src/data/templates.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/data</a> templates.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>3/3</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>3/3</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a>
+<a name='L292'></a><a href='#L292'>292</a>
+<a name='L293'></a><a href='#L293'>293</a>
+<a name='L294'></a><a href='#L294'>294</a>
+<a name='L295'></a><a href='#L295'>295</a>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a>
+<a name='L308'></a><a href='#L308'>308</a>
+<a name='L309'></a><a href='#L309'>309</a>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a>
+<a name='L341'></a><a href='#L341'>341</a>
+<a name='L342'></a><a href='#L342'>342</a>
+<a name='L343'></a><a href='#L343'>343</a>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a>
+<a name='L346'></a><a href='#L346'>346</a>
+<a name='L347'></a><a href='#L347'>347</a>
+<a name='L348'></a><a href='#L348'>348</a>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a>
+<a name='L358'></a><a href='#L358'>358</a>
+<a name='L359'></a><a href='#L359'>359</a>
+<a name='L360'></a><a href='#L360'>360</a>
+<a name='L361'></a><a href='#L361'>361</a>
+<a name='L362'></a><a href='#L362'>362</a>
+<a name='L363'></a><a href='#L363'>363</a>
+<a name='L364'></a><a href='#L364'>364</a>
+<a name='L365'></a><a href='#L365'>365</a>
+<a name='L366'></a><a href='#L366'>366</a>
+<a name='L367'></a><a href='#L367'>367</a>
+<a name='L368'></a><a href='#L368'>368</a>
+<a name='L369'></a><a href='#L369'>369</a>
+<a name='L370'></a><a href='#L370'>370</a>
+<a name='L371'></a><a href='#L371'>371</a>
+<a name='L372'></a><a href='#L372'>372</a>
+<a name='L373'></a><a href='#L373'>373</a>
+<a name='L374'></a><a href='#L374'>374</a>
+<a name='L375'></a><a href='#L375'>375</a>
+<a name='L376'></a><a href='#L376'>376</a>
+<a name='L377'></a><a href='#L377'>377</a>
+<a name='L378'></a><a href='#L378'>378</a>
+<a name='L379'></a><a href='#L379'>379</a>
+<a name='L380'></a><a href='#L380'>380</a>
+<a name='L381'></a><a href='#L381'>381</a>
+<a name='L382'></a><a href='#L382'>382</a>
+<a name='L383'></a><a href='#L383'>383</a>
+<a name='L384'></a><a href='#L384'>384</a>
+<a name='L385'></a><a href='#L385'>385</a>
+<a name='L386'></a><a href='#L386'>386</a>
+<a name='L387'></a><a href='#L387'>387</a>
+<a name='L388'></a><a href='#L388'>388</a>
+<a name='L389'></a><a href='#L389'>389</a>
+<a name='L390'></a><a href='#L390'>390</a>
+<a name='L391'></a><a href='#L391'>391</a>
+<a name='L392'></a><a href='#L392'>392</a>
+<a name='L393'></a><a href='#L393'>393</a>
+<a name='L394'></a><a href='#L394'>394</a>
+<a name='L395'></a><a href='#L395'>395</a>
+<a name='L396'></a><a href='#L396'>396</a>
+<a name='L397'></a><a href='#L397'>397</a>
+<a name='L398'></a><a href='#L398'>398</a>
+<a name='L399'></a><a href='#L399'>399</a>
+<a name='L400'></a><a href='#L400'>400</a>
+<a name='L401'></a><a href='#L401'>401</a>
+<a name='L402'></a><a href='#L402'>402</a>
+<a name='L403'></a><a href='#L403'>403</a>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a>
+<a name='L413'></a><a href='#L413'>413</a>
+<a name='L414'></a><a href='#L414'>414</a>
+<a name='L415'></a><a href='#L415'>415</a>
+<a name='L416'></a><a href='#L416'>416</a>
+<a name='L417'></a><a href='#L417'>417</a>
+<a name='L418'></a><a href='#L418'>418</a>
+<a name='L419'></a><a href='#L419'>419</a>
+<a name='L420'></a><a href='#L420'>420</a>
+<a name='L421'></a><a href='#L421'>421</a>
+<a name='L422'></a><a href='#L422'>422</a>
+<a name='L423'></a><a href='#L423'>423</a>
+<a name='L424'></a><a href='#L424'>424</a>
+<a name='L425'></a><a href='#L425'>425</a>
+<a name='L426'></a><a href='#L426'>426</a>
+<a name='L427'></a><a href='#L427'>427</a>
+<a name='L428'></a><a href='#L428'>428</a>
+<a name='L429'></a><a href='#L429'>429</a>
+<a name='L430'></a><a href='#L430'>430</a>
+<a name='L431'></a><a href='#L431'>431</a>
+<a name='L432'></a><a href='#L432'>432</a>
+<a name='L433'></a><a href='#L433'>433</a>
+<a name='L434'></a><a href='#L434'>434</a>
+<a name='L435'></a><a href='#L435'>435</a>
+<a name='L436'></a><a href='#L436'>436</a>
+<a name='L437'></a><a href='#L437'>437</a>
+<a name='L438'></a><a href='#L438'>438</a>
+<a name='L439'></a><a href='#L439'>439</a>
+<a name='L440'></a><a href='#L440'>440</a>
+<a name='L441'></a><a href='#L441'>441</a>
+<a name='L442'></a><a href='#L442'>442</a>
+<a name='L443'></a><a href='#L443'>443</a>
+<a name='L444'></a><a href='#L444'>444</a>
+<a name='L445'></a><a href='#L445'>445</a>
+<a name='L446'></a><a href='#L446'>446</a>
+<a name='L447'></a><a href='#L447'>447</a>
+<a name='L448'></a><a href='#L448'>448</a>
+<a name='L449'></a><a href='#L449'>449</a>
+<a name='L450'></a><a href='#L450'>450</a>
+<a name='L451'></a><a href='#L451'>451</a>
+<a name='L452'></a><a href='#L452'>452</a>
+<a name='L453'></a><a href='#L453'>453</a>
+<a name='L454'></a><a href='#L454'>454</a>
+<a name='L455'></a><a href='#L455'>455</a>
+<a name='L456'></a><a href='#L456'>456</a>
+<a name='L457'></a><a href='#L457'>457</a>
+<a name='L458'></a><a href='#L458'>458</a>
+<a name='L459'></a><a href='#L459'>459</a>
+<a name='L460'></a><a href='#L460'>460</a>
+<a name='L461'></a><a href='#L461'>461</a>
+<a name='L462'></a><a href='#L462'>462</a>
+<a name='L463'></a><a href='#L463'>463</a>
+<a name='L464'></a><a href='#L464'>464</a>
+<a name='L465'></a><a href='#L465'>465</a>
+<a name='L466'></a><a href='#L466'>466</a>
+<a name='L467'></a><a href='#L467'>467</a>
+<a name='L468'></a><a href='#L468'>468</a>
+<a name='L469'></a><a href='#L469'>469</a>
+<a name='L470'></a><a href='#L470'>470</a>
+<a name='L471'></a><a href='#L471'>471</a>
+<a name='L472'></a><a href='#L472'>472</a>
+<a name='L473'></a><a href='#L473'>473</a>
+<a name='L474'></a><a href='#L474'>474</a>
+<a name='L475'></a><a href='#L475'>475</a>
+<a name='L476'></a><a href='#L476'>476</a>
+<a name='L477'></a><a href='#L477'>477</a>
+<a name='L478'></a><a href='#L478'>478</a>
+<a name='L479'></a><a href='#L479'>479</a>
+<a name='L480'></a><a href='#L480'>480</a>
+<a name='L481'></a><a href='#L481'>481</a>
+<a name='L482'></a><a href='#L482'>482</a>
+<a name='L483'></a><a href='#L483'>483</a>
+<a name='L484'></a><a href='#L484'>484</a>
+<a name='L485'></a><a href='#L485'>485</a>
+<a name='L486'></a><a href='#L486'>486</a>
+<a name='L487'></a><a href='#L487'>487</a>
+<a name='L488'></a><a href='#L488'>488</a>
+<a name='L489'></a><a href='#L489'>489</a>
+<a name='L490'></a><a href='#L490'>490</a>
+<a name='L491'></a><a href='#L491'>491</a>
+<a name='L492'></a><a href='#L492'>492</a>
+<a name='L493'></a><a href='#L493'>493</a>
+<a name='L494'></a><a href='#L494'>494</a>
+<a name='L495'></a><a href='#L495'>495</a>
+<a name='L496'></a><a href='#L496'>496</a>
+<a name='L497'></a><a href='#L497'>497</a>
+<a name='L498'></a><a href='#L498'>498</a>
+<a name='L499'></a><a href='#L499'>499</a>
+<a name='L500'></a><a href='#L500'>500</a>
+<a name='L501'></a><a href='#L501'>501</a>
+<a name='L502'></a><a href='#L502'>502</a>
+<a name='L503'></a><a href='#L503'>503</a>
+<a name='L504'></a><a href='#L504'>504</a>
+<a name='L505'></a><a href='#L505'>505</a>
+<a name='L506'></a><a href='#L506'>506</a>
+<a name='L507'></a><a href='#L507'>507</a>
+<a name='L508'></a><a href='#L508'>508</a>
+<a name='L509'></a><a href='#L509'>509</a>
+<a name='L510'></a><a href='#L510'>510</a>
+<a name='L511'></a><a href='#L511'>511</a>
+<a name='L512'></a><a href='#L512'>512</a>
+<a name='L513'></a><a href='#L513'>513</a>
+<a name='L514'></a><a href='#L514'>514</a>
+<a name='L515'></a><a href='#L515'>515</a>
+<a name='L516'></a><a href='#L516'>516</a>
+<a name='L517'></a><a href='#L517'>517</a>
+<a name='L518'></a><a href='#L518'>518</a>
+<a name='L519'></a><a href='#L519'>519</a>
+<a name='L520'></a><a href='#L520'>520</a>
+<a name='L521'></a><a href='#L521'>521</a>
+<a name='L522'></a><a href='#L522'>522</a>
+<a name='L523'></a><a href='#L523'>523</a>
+<a name='L524'></a><a href='#L524'>524</a>
+<a name='L525'></a><a href='#L525'>525</a>
+<a name='L526'></a><a href='#L526'>526</a>
+<a name='L527'></a><a href='#L527'>527</a>
+<a name='L528'></a><a href='#L528'>528</a>
+<a name='L529'></a><a href='#L529'>529</a>
+<a name='L530'></a><a href='#L530'>530</a>
+<a name='L531'></a><a href='#L531'>531</a>
+<a name='L532'></a><a href='#L532'>532</a>
+<a name='L533'></a><a href='#L533'>533</a>
+<a name='L534'></a><a href='#L534'>534</a>
+<a name='L535'></a><a href='#L535'>535</a>
+<a name='L536'></a><a href='#L536'>536</a>
+<a name='L537'></a><a href='#L537'>537</a>
+<a name='L538'></a><a href='#L538'>538</a>
+<a name='L539'></a><a href='#L539'>539</a>
+<a name='L540'></a><a href='#L540'>540</a>
+<a name='L541'></a><a href='#L541'>541</a>
+<a name='L542'></a><a href='#L542'>542</a>
+<a name='L543'></a><a href='#L543'>543</a>
+<a name='L544'></a><a href='#L544'>544</a>
+<a name='L545'></a><a href='#L545'>545</a>
+<a name='L546'></a><a href='#L546'>546</a>
+<a name='L547'></a><a href='#L547'>547</a>
+<a name='L548'></a><a href='#L548'>548</a>
+<a name='L549'></a><a href='#L549'>549</a>
+<a name='L550'></a><a href='#L550'>550</a>
+<a name='L551'></a><a href='#L551'>551</a>
+<a name='L552'></a><a href='#L552'>552</a>
+<a name='L553'></a><a href='#L553'>553</a>
+<a name='L554'></a><a href='#L554'>554</a>
+<a name='L555'></a><a href='#L555'>555</a>
+<a name='L556'></a><a href='#L556'>556</a>
+<a name='L557'></a><a href='#L557'>557</a>
+<a name='L558'></a><a href='#L558'>558</a>
+<a name='L559'></a><a href='#L559'>559</a>
+<a name='L560'></a><a href='#L560'>560</a>
+<a name='L561'></a><a href='#L561'>561</a>
+<a name='L562'></a><a href='#L562'>562</a>
+<a name='L563'></a><a href='#L563'>563</a>
+<a name='L564'></a><a href='#L564'>564</a>
+<a name='L565'></a><a href='#L565'>565</a>
+<a name='L566'></a><a href='#L566'>566</a>
+<a name='L567'></a><a href='#L567'>567</a>
+<a name='L568'></a><a href='#L568'>568</a>
+<a name='L569'></a><a href='#L569'>569</a>
+<a name='L570'></a><a href='#L570'>570</a>
+<a name='L571'></a><a href='#L571'>571</a>
+<a name='L572'></a><a href='#L572'>572</a>
+<a name='L573'></a><a href='#L573'>573</a>
+<a name='L574'></a><a href='#L574'>574</a>
+<a name='L575'></a><a href='#L575'>575</a>
+<a name='L576'></a><a href='#L576'>576</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * 初始模板数据
+ * Task-012: ≥8个标准模板，覆盖4个分类，每个模板≥10个变量定义
+ */
+import { Template, TemplateCategory } from '../types/template.types';
+&nbsp;
+const now = new Date('2026-05-03');
+&nbsp;
+export const templates: Template[] = [
+  // ========== 采购方案（2个）==========
+  {
+    id: 'tpl-procurement-001',
+    name: '标准采购方案',
+    category: TemplateCategory.PROCUREMENT,
+    description: '适用于常规节日慰问品采购的标准方案模板，涵盖采购依据、预算明细、供应商选择等内容',
+    content: `关于${'${单位名称}'}${'${采购年份}'}年度${'${采购用途}'}采购方案
+&nbsp;
+一、采购依据
+根据${'${政策文件名称}'}（${'${文号}'}）及${'${上级单位名称}'}${'${上级文号}'}文件精神，结合我${'${单位类型}'}实际需求，特制定本采购方案。
+&nbsp;
+二、采购内容
+1. ${'${采购品目一}'}：${'${数量一}'}，预算${'${单价一}'}元/份，小计${'${小计一}'}元
+2. ${'${采购品目二}'}：${'${数量二}'}，预算${'${单价二}'}元/份，小计${'${小计二}'}元
+3. ${'${采购品目三}'}：${'${数量三}'}，预算${'${单价三}'}元/份，小计${'${小计三}'}元
+&nbsp;
+三、预算总额
+本项目预算总额为人民币${'${预算总金额}'}元（大写：${'${预算大写}'}），经费来源为${'${经费来源}'}。
+&nbsp;
+四、采购方式
+本次采购拟采用${'${采购方式}'}方式，通过${'${采购平台}'}进行采购，计划于${'${采购时间}'}前完成。
+&nbsp;
+五、供应商选择
+经市场调研，初步选定以下供应商：
+1. ${'${供应商一}'}
+2. ${'${供应商二}'}
+&nbsp;
+六、实施计划
+（一）${'${计划时间一}'}：完成需求调研
+（二）${'${计划时间二}'}：完成供应商比选
+（三）${'${计划时间三}'}：完成采购执行
+（四）${'${计划时间四}'}：完成验收交付
+&nbsp;
+七、联系人
+项目负责人：${'${负责人}'}
+联系电话：${'${联系电话}'}`,
+    variables: [
+      { key: '单位名称', label: '采购单位全称', type: 'text', required: true, defaultValue: 'XX单位' },
+      { key: '采购年份', label: '采购年份', type: 'text', required: true, defaultValue: '2026' },
+      { key: '采购用途', label: '采购用途', type: 'text', required: true, defaultValue: '节日慰问品' },
+      { key: '政策文件名称', label: '政策依据文件名', type: 'text', required: true, defaultValue: '关于规范工会经费使用管理的通知' },
+      { key: '文号', label: '政策文号', type: 'text', required: true },
+      { key: '上级单位名称', label: '上级单位名称', type: 'text', required: true },
+      { key: '上级文号', label: '上级批复文号', type: 'text', required: false },
+      { key: '单位类型', label: '单位类型', type: 'select', required: true, options: ['机关', '事业单位', '企业', '社会团体'] },
+      { key: '采购品目一', label: '采购品目一', type: 'text', required: true, defaultValue: '大米' },
+      { key: '数量一', label: '品目一数量', type: 'number', required: true, defaultValue: '100' },
+      { key: '单价一', label: '品目一单价(元)', type: 'number', required: true, defaultValue: '200' },
+      { key: '小计一', label: '品目一小计(元)', type: 'number', required: true },
+      { key: '采购品目二', label: '采购品目二', type: 'text', required: false, defaultValue: '食用油' },
+      { key: '数量二', label: '品目二数量', type: 'number', required: false },
+      { key: '单价二', label: '品目二单价(元)', type: 'number', required: false },
+      { key: '小计二', label: '品目二小计(元)', type: 'number', required: false },
+      { key: '采购品目三', label: '采购品目三', type: 'text', required: false },
+      { key: '数量三', label: '品目三数量', type: 'number', required: false },
+      { key: '单价三', label: '品目三单价(元)', type: 'number', required: false },
+      { key: '小计三', label: '品目三小计(元)', type: 'number', required: false },
+      { key: '预算总金额', label: '预算总金额(元)', type: 'number', required: true },
+      { key: '预算大写', label: '预算总金额大写', type: 'text', required: true },
+      { key: '经费来源', label: '经费来源', type: 'select', required: true, options: ['工会经费', '行政经费', '专项资金', '其他'] },
+      { key: '采购方式', label: '采购方式', type: 'select', required: true, options: ['公开招标', '邀请招标', '竞争性谈判', '询价', '单一来源'] },
+      { key: '采购平台', label: '采购平台', type: 'text', required: true, defaultValue: '政府采购云平台' },
+      { key: '采购时间', label: '计划完成时间', type: 'date', required: true },
+      { key: '供应商一', label: '候选供应商一', type: 'text', required: false },
+      { key: '供应商二', label: '候选供应商二', type: 'text', required: false },
+      { key: '计划时间一', label: '需求调研完成时间', type: 'date', required: true },
+      { key: '计划时间二', label: '供应商比选完成时间', type: 'date', required: true },
+      { key: '计划时间三', label: '采购执行完成时间', type: 'date', required: true },
+      { key: '计划时间四', label: '验收交付完成时间', type: 'date', required: true },
+      { key: '负责人', label: '项目负责人', type: 'text', required: true },
+      { key: '联系电话', label: '联系电话', type: 'text', required: true },
+    ],
+    previewUrl: '/preview/tpl-procurement-001',
+    usageCount: 156,
+    isFavorite: true,
+    createdAt: now,
+    updatedAt: now,
+  },
+  {
+    id: 'tpl-procurement-002',
+    name: '紧急采购方案',
+    category: TemplateCategory.PROCUREMENT,
+    description: '适用于突发应急情况下的快速采购方案，简化审批流程，强调时效性和合规性',
+    content: `关于${'${单位名称}'}${'${紧急事项}'}紧急采购方案
+&nbsp;
+一、紧急采购事由
+因${'${紧急原因}'}，需紧急采购${'${采购物品}'}。根据${'${紧急采购政策依据}'}规定，特启动紧急采购程序。
+&nbsp;
+二、采购需求
+1. ${'${物品名称一}'}：数量${'${紧急数量一}'}，预算单价${'${紧急单价一}'}元，合计${'${紧急小计一}'}元
+2. ${'${物品名称二}'}：数量${'${紧急数量二}'}，预算单价${'${紧急单价二}'}元，合计${'${紧急小计二}'}元
+&nbsp;
+三、采购预算
+紧急采购预算总额人民币${'${紧急预算总额}'}元（大写：${'${紧急预算大写}'}），从${'${预算科目}'}列支。
+&nbsp;
+四、采购方式
+鉴于情况紧急，拟采用${'${紧急采购方式}'}方式，直接向${'${紧急供应商}'}采购。
+&nbsp;
+五、时间要求
+因${'${时间紧迫原因}'}，需在${'${要求完成日期}'}前完成全部采购及交付。
+&nbsp;
+六、审批意见
+（一）${'${审批部门一}'}意见：
+（二）${'${审批部门二}'}意见：
+（三）单位负责人意见：
+&nbsp;
+联系人：${'${紧急联系人}'}
+联系电话：${'${紧急联系电话}'}`,
+    variables: [
+      { key: '单位名称', label: '采购单位全称', type: 'text', required: true },
+      { key: '紧急事项', label: '紧急事项名称', type: 'text', required: true, defaultValue: '突发应急' },
+      { key: '紧急原因', label: '紧急采购原因', type: 'text', required: true },
+      { key: '采购物品', label: '采购物品总称', type: 'text', required: true },
+      { key: '紧急采购政策依据', label: '紧急采购政策文件', type: 'text', required: true, defaultValue: '政府采购应急管理办法' },
+      { key: '物品名称一', label: '物品一名称', type: 'text', required: true },
+      { key: '紧急数量一', label: '物品一数量', type: 'number', required: true },
+      { key: '紧急单价一', label: '物品一单价(元)', type: 'number', required: true },
+      { key: '紧急小计一', label: '物品一小计(元)', type: 'number', required: true },
+      { key: '物品名称二', label: '物品二名称', type: 'text', required: false },
+      { key: '紧急数量二', label: '物品二数量', type: 'number', required: false },
+      { key: '紧急单价二', label: '物品二单价(元)', type: 'number', required: false },
+      { key: '紧急小计二', label: '物品二小计(元)', type: 'number', required: false },
+      { key: '紧急预算总额', label: '预算总额(元)', type: 'number', required: true },
+      { key: '紧急预算大写', label: '预算总额大写', type: 'text', required: true },
+      { key: '预算科目', label: '预算科目', type: 'select', required: true, options: ['工会经费', '行政经费', '应急预备金', '其他'] },
+      { key: '紧急采购方式', label: '采购方式', type: 'select', required: true, options: ['单一来源', '询价', '竞争性谈判'] },
+      { key: '紧急供应商', label: '指定供应商', type: 'text', required: true },
+      { key: '时间紧迫原因', label: '时间紧迫原因', type: 'text', required: true },
+      { key: '要求完成日期', label: '要求完成日期', type: 'date', required: true },
+      { key: '审批部门一', label: '审批部门一', type: 'text', required: true, defaultValue: '财务部门' },
+      { key: '审批部门二', label: '审批部门二', type: 'text', required: false, defaultValue: '纪检监察部门' },
+      { key: '紧急联系人', label: '紧急联系人', type: 'text', required: true },
+      { key: '紧急联系电话', label: '紧急联系电话', type: 'text', required: true },
+    ],
+    previewUrl: '/preview/tpl-procurement-002',
+    usageCount: 43,
+    isFavorite: false,
+    createdAt: now,
+    updatedAt: now,
+  },
+&nbsp;
+  // ========== 慰问方案（2个）==========
+  {
+    id: 'tpl-consolation-001',
+    name: '春节慰问方案',
+    category: TemplateCategory.CONSOLATION,
+    description: '适用于春节等传统节日期间的职工慰问活动方案，涵盖慰问对象、标准、物资安排等内容',
+    content: `关于${'${慰问年份}'}年春节慰问活动方案
+&nbsp;
+一、慰问目的
+在${'${慰问年份}'}年新春佳节来临之际，为体现${'${组织名称}'}对${'${慰问对象群体}'}的关怀，根据${'${政策文件}'}精神，特制定本慰问方案。
+&nbsp;
+二、慰问对象及标准
+1. ${'${慰问对象一}'}：${'${慰问标准一}'}元/人，共${'${慰问人数一}'}人
+2. ${'${慰问对象二}'}：${'${慰问标准二}'}元/人，共${'${慰问人数二}'}人
+3. ${'${慰问对象三}'}：${'${慰问标准三}'}元/人，共${'${慰问人数三}'}人
+&nbsp;
+三、慰问形式
+采用${'${慰问形式}'}的方式进行慰问，具体包括：
+（一）发放慰问品：${'${慰问品清单}'}
+（二）发放慰问金：${'${慰问金说明}'}
+（三）${'${其他形式}'}
+&nbsp;
+四、经费预算
+本次慰问活动预算总额人民币${'${慰问总预算}'}元（大写：${'${慰问预算大写}'}），从${'${慰问经费来源}'}列支。
+&nbsp;
+五、时间安排
+（一）${'${准备开始日期}'}：完成方案制定
+（二）${'${物资准备日期}'}：完成物资采购
+（三）${'${慰问开始日期}'}－${'${慰问结束日期}'}：开展慰问活动
+&nbsp;
+六、组织保障
+成立慰问工作领导小组：
+组　长：${'${组长姓名}'}
+副组长：${'${副组长姓名}'}
+成　员：${'${成员名单}'}
+&nbsp;
+联系人：${'${慰问联系人}'}
+联系电话：${'${慰问联系电话}'}`,
+    variables: [
+      { key: '慰问年份', label: '慰问年份', type: 'text', required: true, defaultValue: '2026' },
+      { key: '组织名称', label: '组织单位名称', type: 'text', required: true },
+      { key: '慰问对象群体', label: '慰问对象群体', type: 'text', required: true, defaultValue: '全体职工' },
+      { key: '政策文件', label: '政策依据文件', type: 'text', required: true, defaultValue: '基层工会经费收支管理办法' },
+      { key: '慰问对象一', label: '慰问对象一', type: 'text', required: true, defaultValue: '在职工会会员' },
+      { key: '慰问标准一', label: '慰问标准一(元/人)', type: 'number', required: true, defaultValue: '500' },
+      { key: '慰问人数一', label: '慰问人数一', type: 'number', required: true },
+      { key: '慰问对象二', label: '慰问对象二', type: 'text', required: false, defaultValue: '退休职工' },
+      { key: '慰问标准二', label: '慰问标准二(元/人)', type: 'number', required: false, defaultValue: '300' },
+      { key: '慰问人数二', label: '慰问人数二', type: 'number', required: false },
+      { key: '慰问对象三', label: '慰问对象三', type: 'text', required: false, defaultValue: '困难职工' },
+      { key: '慰问标准三', label: '慰问标准三(元/人)', type: 'number', required: false, defaultValue: '1000' },
+      { key: '慰问人数三', label: '慰问人数三', type: 'number', required: false },
+      { key: '慰问形式', label: '慰问形式', type: 'select', required: true, options: ['集中慰问', '走访慰问', '集中+走访', '线上慰问'] },
+      { key: '慰问品清单', label: '慰问品清单', type: 'text', required: true, defaultValue: '米面油等生活物资' },
+      { key: '慰问金说明', label: '慰问金发放说明', type: 'text', required: false },
+      { key: '其他形式', label: '其他慰问形式', type: 'text', required: false },
+      { key: '慰问总预算', label: '慰问总预算(元)', type: 'number', required: true },
+      { key: '慰问预算大写', label: '预算大写', type: 'text', required: true },
+      { key: '慰问经费来源', label: '经费来源', type: 'select', required: true, options: ['工会经费', '行政经费', '专项资金'] },
+      { key: '准备开始日期', label: '方案制定完成日期', type: 'date', required: true },
+      { key: '物资准备日期', label: '物资采购完成日期', type: 'date', required: true },
+      { key: '慰问开始日期', label: '慰问开始日期', type: 'date', required: true },
+      { key: '慰问结束日期', label: '慰问结束日期', type: 'date', required: true },
+      { key: '组长姓名', label: '领导小组组长', type: 'text', required: true },
+      { key: '副组长姓名', label: '领导小组副组长', type: 'text', required: true },
+      { key: '成员名单', label: '领导小组成员', type: 'text', required: true },
+      { key: '慰问联系人', label: '联系人', type: 'text', required: true },
+      { key: '慰问联系电话', label: '联系电话', type: 'text', required: true },
+    ],
+    previewUrl: '/preview/tpl-consolation-001',
+    usageCount: 230,
+    isFavorite: true,
+    createdAt: now,
+    updatedAt: now,
+  },
+  {
+    id: 'tpl-consolation-002',
+    name: '帮扶慰问方案',
+    category: TemplateCategory.CONSOLATION,
+    description: '适用于困难职工精准帮扶的慰问方案，强调摸底调查、分级帮扶、长期关怀',
+    content: `关于${'${帮扶年份}'}年度困难职工帮扶慰问方案
+&nbsp;
+一、帮扶背景
+根据${'${帮扶政策文件}'}要求，为切实做好${'${帮扶年份}'}年度困难职工帮扶工作，结合我${'${单位类型}'}实际，制定本帮扶方案。
+&nbsp;
+二、困难职工摸底情况
+经调查摸底，共确定困难职工${'${困难职工总数}'}人，其中：
+1. ${'${困难类型一}'}：${'${困难类型一数量}'}人
+2. ${'${困难类型二}'}：${'${困难类型二数量}'}人
+3. ${'${困难类型三}'}：${'${困难类型三数量}'}人
+&nbsp;
+三、帮扶标准
+（一）${'${困难类型一}'}：帮扶标准${'${帮扶标准一}'}元/人
+（二）${'${困难类型二}'}：帮扶标准${'${帮扶标准二}'}元/人
+（三）${'${困难类型三}'}：帮扶标准${'${帮扶标准三}'}元/人
+&nbsp;
+四、帮扶方式
+采用"${'${帮扶方式}'}"模式，具体包括：
+（一）资金帮扶：发放帮扶金
+（二）物资帮扶：${'${物资帮扶内容}'}
+（三）${'${其他帮扶方式}'}
+&nbsp;
+五、经费预算
+本年度帮扶预算总额人民币${'${帮扶总预算}'}元（大写：${'${帮扶预算大写}'}），资金来源为${'${帮扶资金来源}'}。
+&nbsp;
+六、时间安排
+（一）${'${摸底完成日期}'}：完成困难职工摸底调查
+（二）${'${审核完成日期}'}：完成帮扶对象审核公示
+（三）${'${帮扶实施日期}'}：开展帮扶慰问活动
+（四）${'${总结完成日期}'}：完成帮扶工作总结
+&nbsp;
+七、跟踪关怀
+建立${'${跟踪周期}'}跟踪回访机制，确保帮扶实效。
+&nbsp;
+联系人：${'${帮扶联系人}'}
+联系电话：${'${帮扶联系电话}'}`,
+    variables: [
+      { key: '帮扶年份', label: '帮扶年份', type: 'text', required: true, defaultValue: '2026' },
+      { key: '帮扶政策文件', label: '帮扶政策依据文件', type: 'text', required: true, defaultValue: '困难职工帮扶管理办法' },
+      { key: '单位类型', label: '单位类型', type: 'select', required: true, options: ['机关', '事业单位', '企业', '社会团体'] },
+      { key: '困难职工总数', label: '困难职工总数', type: 'number', required: true },
+      { key: '困难类型一', label: '困难类型一', type: 'text', required: true, defaultValue: '特困职工' },
+      { key: '困难类型一数量', label: '特困职工人数', type: 'number', required: true },
+      { key: '困难类型二', label: '困难类型二', type: 'text', required: false, defaultValue: '一般困难职工' },
+      { key: '困难类型二数量', label: '一般困难职工人数', type: 'number', required: false },
+      { key: '困难类型三', label: '困难类型三', type: 'text', required: false, defaultValue: '临时困难职工' },
+      { key: '困难类型三数量', label: '临时困难职工人数', type: 'number', required: false },
+      { key: '帮扶标准一', label: '特困帮扶标准(元/人)', type: 'number', required: true, defaultValue: '3000' },
+      { key: '帮扶标准二', label: '一般困难标准(元/人)', type: 'number', required: false, defaultValue: '1500' },
+      { key: '帮扶标准三', label: '临时困难标准(元/人)', type: 'number', required: false, defaultValue: '800' },
+      { key: '帮扶方式', label: '帮扶方式', type: 'select', required: true, options: ['资金+物资', '资金帮扶', '物资帮扶', '综合帮扶'] },
+      { key: '物资帮扶内容', label: '物资帮扶内容', type: 'text', required: false, defaultValue: '生活必需品' },
+      { key: '其他帮扶方式', label: '其他帮扶方式', type: 'text', required: false, defaultValue: '就业帮扶、医疗帮扶' },
+      { key: '帮扶总预算', label: '帮扶总预算(元)', type: 'number', required: true },
+      { key: '帮扶预算大写', label: '预算大写', type: 'text', required: true },
+      { key: '帮扶资金来源', label: '资金来源', type: 'select', required: true, options: ['工会经费', '行政拨款', '专项资金', '社会捐赠'] },
+      { key: '摸底完成日期', label: '摸底完成日期', type: 'date', required: true },
+      { key: '审核完成日期', label: '审核公示完成日期', type: 'date', required: true },
+      { key: '帮扶实施日期', label: '帮扶实施日期', type: 'date', required: true },
+      { key: '总结完成日期', label: '总结完成日期', type: 'date', required: true },
+      { key: '跟踪周期', label: '跟踪回访周期', type: 'select', required: true, options: ['每月', '每季度', '每半年'] },
+      { key: '帮扶联系人', label: '帮扶工作联系人', type: 'text', required: true },
+      { key: '帮扶联系电话', label: '帮扶联系电话', type: 'text', required: true },
+    ],
+    previewUrl: '/preview/tpl-consolation-002',
+    usageCount: 87,
+    isFavorite: false,
+    createdAt: now,
+    updatedAt: now,
+  },
+&nbsp;
+  // ========== 请示报告（2个）==========
+  {
+    id: 'tpl-request-001',
+    name: '经费请示',
+    category: TemplateCategory.REQUEST,
+    description: '适用于向上级部门申请专项经费的请示报告，涵盖申请事由、预算明细、预期效益',
+    content: `${'${呈报单位}'}文件
+&nbsp;
+${'${呈报单位简称}'}〔${'${年份}'}〕${'${编号}'}号
+&nbsp;
+关于申请${'${申请事项}'}经费的请示
+&nbsp;
+${'${上级单位名称}'}：
+&nbsp;
+为${'${申请事由}'}，根据${'${政策依据}'}精神，现申请${'${申请事项}'}专项经费。
+&nbsp;
+一、项目概况
+（一）项目名称：${'${项目名称}'}
+（二）实施单位：${'${实施单位}'}
+（三）实施时间：${'${实施开始日期}'}至${'${实施结束日期}'}
+（四）项目负责人：${'${项目负责人}'}
+&nbsp;
+二、经费预算
+经测算，本项目共需经费人民币${'${申请总金额}'}元（大写：${'${金额大写}'}），具体明细如下：
+1. ${'${预算项目一}'}：${'${预算金额一}'}元
+2. ${'${预算项目二}'}：${'${预算金额二}'}元
+3. ${'${预算项目三}'}：${'${预算金额三}'}元
+4. ${'${预算项目四}'}：${'${预算金额四}'}元
+&nbsp;
+三、预期效益
+（一）${'${预期效益一}'}
+（二）${'${预期效益二}'}
+（三）${'${预期效益三}'}
+&nbsp;
+四、经费来源
+资金来源：${'${经费来源渠道}'}
+&nbsp;
+妥否，请批示。
+&nbsp;
+${'${呈报单位}'}
+${'${呈报日期}'}
+&nbsp;
+（联系人：${'${请示联系人}'}，联系电话：${'${请示联系电话}'}）`,
+    variables: [
+      { key: '呈报单位', label: '呈报单位全称', type: 'text', required: true },
+      { key: '呈报单位简称', label: '呈报单位简称', type: 'text', required: true },
+      { key: '年份', label: '发文年份', type: 'text', required: true, defaultValue: '2026' },
+      { key: '编号', label: '发文编号', type: 'text', required: true },
+      { key: '申请事项', label: '申请事项', type: 'text', required: true, defaultValue: '专项工作' },
+      { key: '上级单位名称', label: '上级单位名称', type: 'text', required: true },
+      { key: '申请事由', label: '申请事由', type: 'text', required: true },
+      { key: '政策依据', label: '政策依据', type: 'text', required: true },
+      { key: '项目名称', label: '项目名称', type: 'text', required: true },
+      { key: '实施单位', label: '实施单位', type: 'text', required: true },
+      { key: '实施开始日期', label: '实施开始日期', type: 'date', required: true },
+      { key: '实施结束日期', label: '实施结束日期', type: 'date', required: true },
+      { key: '项目负责人', label: '项目负责人', type: 'text', required: true },
+      { key: '申请总金额', label: '申请总金额(元)', type: 'number', required: true },
+      { key: '金额大写', label: '金额大写', type: 'text', required: true },
+      { key: '预算项目一', label: '预算项目一', type: 'text', required: true, defaultValue: '物资采购费' },
+      { key: '预算金额一', label: '项目一金额(元)', type: 'number', required: true },
+      { key: '预算项目二', label: '预算项目二', type: 'text', required: false, defaultValue: '场地租赁费' },
+      { key: '预算金额二', label: '项目二金额(元)', type: 'number', required: false },
+      { key: '预算项目三', label: '预算项目三', type: 'text', required: false, defaultValue: '人员劳务费' },
+      { key: '预算金额三', label: '项目三金额(元)', type: 'number', required: false },
+      { key: '预算项目四', label: '预算项目四', type: 'text', required: false, defaultValue: '其他费用' },
+      { key: '预算金额四', label: '项目四金额(元)', type: 'number', required: false },
+      { key: '预期效益一', label: '预期效益一', type: 'text', required: true },
+      { key: '预期效益二', label: '预期效益二', type: 'text', required: false },
+      { key: '预期效益三', label: '预期效益三', type: 'text', required: false },
+      { key: '经费来源渠道', label: '经费来源渠道', type: 'select', required: true, options: ['财政拨款', '工会经费', '单位自筹', '上级补助'] },
+      { key: '呈报日期', label: '呈报日期', type: 'date', required: true },
+      { key: '请示联系人', label: '联系人', type: 'text', required: true },
+      { key: '请示联系电话', label: '联系电话', type: 'text', required: true },
+    ],
+    previewUrl: '/preview/tpl-request-001',
+    usageCount: 198,
+    isFavorite: true,
+    createdAt: now,
+    updatedAt: now,
+  },
+  {
+    id: 'tpl-request-002',
+    name: '活动请示',
+    category: TemplateCategory.REQUEST,
+    description: '适用于向上级申请组织开展专项活动的请示报告，涵盖活动方案、安全保障、预算等内容',
+    content: `${'${主办单位}'}文件
+&nbsp;
+${'${主办单位简称}'}〔${'${活动年份}'}〕${'${活动编号}'}号
+&nbsp;
+关于举办${'${活动名称}'}的请示
+&nbsp;
+${'${审批单位}'}：
+&nbsp;
+为${'${活动目的}'}，根据${'${活动政策依据}'}，拟于近期举办${'${活动名称}'}。现将有关事项请示如下：
+&nbsp;
+一、活动方案
+（一）活动主题：${'${活动主题}'}
+（二）活动时间：${'${活动开始时间}'}至${'${活动结束时间}'}
+（三）活动地点：${'${活动地点}'}
+（四）参加人员：${'${参加人员}'}，预计${'${参加人数}'}人
+（五）活动内容：
+1. ${'${活动内容一}'}
+2. ${'${活动内容二}'}
+3. ${'${活动内容三}'}
+&nbsp;
+二、组织机构
+（一）主办单位：${'${主办单位}'}
+（二）承办单位：${'${承办单位}'}
+（三）协办单位：${'${协办单位}'}
+&nbsp;
+三、经费预算
+本次活动预算人民币${'${活动总预算}'}元（大写：${'${活动预算大写}'}），从${'${活动经费来源}'}列支。
+&nbsp;
+四、安全保障
+制定${'${安全保障措施}'}等安全预案，确保活动安全有序开展。
+&nbsp;
+妥否，请批示。
+&nbsp;
+${'${主办单位}'}
+${'${请示日期}'}
+&nbsp;
+（联系人：${'${活动联系人}'}，联系电话：${'${活动联系电话}'}）`,
+    variables: [
+      { key: '主办单位', label: '主办单位全称', type: 'text', required: true },
+      { key: '主办单位简称', label: '主办单位简称', type: 'text', required: true },
+      { key: '活动年份', label: '发文年份', type: 'text', required: true, defaultValue: '2026' },
+      { key: '活动编号', label: '发文编号', type: 'text', required: true },
+      { key: '活动名称', label: '活动名称', type: 'text', required: true },
+      { key: '审批单位', label: '审批单位', type: 'text', required: true },
+      { key: '活动目的', label: '活动目的', type: 'text', required: true },
+      { key: '活动政策依据', label: '政策依据', type: 'text', required: true },
+      { key: '活动主题', label: '活动主题', type: 'text', required: true },
+      { key: '活动开始时间', label: '活动开始时间', type: 'date', required: true },
+      { key: '活动结束时间', label: '活动结束时间', type: 'date', required: true },
+      { key: '活动地点', label: '活动地点', type: 'text', required: true },
+      { key: '参加人员', label: '参加人员范围', type: 'text', required: true, defaultValue: '全体职工' },
+      { key: '参加人数', label: '预计参加人数', type: 'number', required: true },
+      { key: '活动内容一', label: '活动内容一', type: 'text', required: true },
+      { key: '活动内容二', label: '活动内容二', type: 'text', required: false },
+      { key: '活动内容三', label: '活动内容三', type: 'text', required: false },
+      { key: '承办单位', label: '承办单位', type: 'text', required: false },
+      { key: '协办单位', label: '协办单位', type: 'text', required: false },
+      { key: '活动总预算', label: '活动总预算(元)', type: 'number', required: true },
+      { key: '活动预算大写', label: '预算大写', type: 'text', required: true },
+      { key: '活动经费来源', label: '经费来源', type: 'select', required: true, options: ['工会经费', '行政经费', '专项资金', '自筹资金'] },
+      { key: '安全保障措施', label: '安全保障措施', type: 'text', required: true, defaultValue: '安全预案和应急预案' },
+      { key: '请示日期', label: '请示日期', type: 'date', required: true },
+      { key: '活动联系人', label: '活动联系人', type: 'text', required: true },
+      { key: '活动联系电话', label: '联系电话', type: 'text', required: true },
+    ],
+    previewUrl: '/preview/tpl-request-002',
+    usageCount: 112,
+    isFavorite: false,
+    createdAt: now,
+    updatedAt: now,
+  },
+&nbsp;
+  // ========== 批复文件（2个）==========
+  {
+    id: 'tpl-approval-001',
+    name: '批复通知',
+    category: TemplateCategory.APPROVAL,
+    description: '适用于对下级单位请示事项的正式批复通知，包含批复意见和执行要求',
+    content: `${'${批复单位}'}文件
+&nbsp;
+${'${批复单位简称}'}〔${'${批复年份}'}〕${'${批复编号}'}号
+&nbsp;
+关于${'${批复事项}'}的批复
+&nbsp;
+${'${呈报单位}'}：
+&nbsp;
+你单位《关于${'${原请示事项}'}的请示》（${'${原请示文号}'}）收悉。经研究，现批复如下：
+&nbsp;
+一、${'${批复意见一}'}
+&nbsp;
+二、${'${批复意见二}'}
+&nbsp;
+三、${'${批复意见三}'}
+&nbsp;
+请严格按照${'${执行要求}'}要求，认真组织实施，确保${'${确保事项}'}。
+&nbsp;
+此复。
+&nbsp;
+${'${批复单位}'}
+${'${批复日期}'}
+&nbsp;
+（联系人：${'${批复联系人}'}，联系电话：${'${批复联系电话}'}）`,
+    variables: [
+      { key: '批复单位', label: '批复单位全称', type: 'text', required: true },
+      { key: '批复单位简称', label: '批复单位简称', type: 'text', required: true },
+      { key: '批复年份', label: '批复年份', type: 'text', required: true, defaultValue: '2026' },
+      { key: '批复编号', label: '批复编号', type: 'text', required: true },
+      { key: '批复事项', label: '批复事项简述', type: 'text', required: true },
+      { key: '呈报单位', label: '呈报单位全称', type: 'text', required: true },
+      { key: '原请示事项', label: '原请示事项', type: 'text', required: true },
+      { key: '原请示文号', label: '原请示文号', type: 'text', required: true },
+      { key: '批复意见一', label: '批复意见一', type: 'text', required: true, defaultValue: '原则同意你单位请示事项。' },
+      { key: '批复意见二', label: '批复意见二', type: 'text', required: false, defaultValue: '请严格按照预算执行，不得超支。' },
+      { key: '批复意见三', label: '批复意见三', type: 'text', required: false },
+      { key: '执行要求', label: '执行要求', type: 'text', required: true, defaultValue: '有关规定和方案' },
+      { key: '确保事项', label: '确保事项', type: 'text', required: true, defaultValue: '工作顺利完成' },
+      { key: '批复日期', label: '批复日期', type: 'date', required: true },
+      { key: '批复联系人', label: '批复联系人', type: 'text', required: true },
+      { key: '批复联系电话', label: '联系电话', type: 'text', required: true },
+    ],
+    previewUrl: '/preview/tpl-approval-001',
+    usageCount: 165,
+    isFavorite: false,
+    createdAt: now,
+    updatedAt: now,
+  },
+  {
+    id: 'tpl-approval-002',
+    name: '批复意见',
+    category: TemplateCategory.APPROVAL,
+    description: '适用于对多个请示事项的综合批复意见，支持分项说明和差异化回复',
+    content: `${'${批复单位}'}文件
+&nbsp;
+${'${批复单位简称}'}〔${'${意见年份}'}〕${'${意见编号}'}号
+&nbsp;
+关于${'${意见事项}'}的批复意见
+&nbsp;
+${'${申请单位}'}：
+&nbsp;
+你单位报来的${'${申请文件列表}'}收悉。经${'${研究方式}'}，现提出以下批复意见：
+&nbsp;
+一、关于${'${事项一}'}
+${'${意见内容一}'}
+&nbsp;
+二、关于${'${事项二}'}
+${'${意见内容二}'}
+&nbsp;
+三、关于${'${事项三}'}
+${'${意见内容三}'}
+&nbsp;
+四、总体要求
+（一）${'${总体要求一}'}
+（二）${'${总体要求二}'}
+&nbsp;
+请按上述意见执行，如有问题及时报告。
+&nbsp;
+${'${批复单位}'}
+${'${意见日期}'}
+&nbsp;
+（联系人：${'${意见联系人}'}，联系电话：${'${意见联系电话}'}）`,
+    variables: [
+      { key: '批复单位', label: '批复单位全称', type: 'text', required: true },
+      { key: '批复单位简称', label: '批复单位简称', type: 'text', required: true },
+      { key: '意见年份', label: '发文年份', type: 'text', required: true, defaultValue: '2026' },
+      { key: '意见编号', label: '发文编号', type: 'text', required: true },
+      { key: '意见事项', label: '批复事项', type: 'text', required: true },
+      { key: '申请单位', label: '申请单位', type: 'text', required: true },
+      { key: '申请文件列表', label: '申请文件列表', type: 'text', required: true },
+      { key: '研究方式', label: '研究方式', type: 'select', required: true, options: ['会议研究', '集体讨论', '专家论证', '书面审查'] },
+      { key: '事项一', label: '分项事项一', type: 'text', required: true },
+      { key: '意见内容一', label: '事项一意见', type: 'text', required: true, defaultValue: '原则同意。' },
+      { key: '事项二', label: '分项事项二', type: 'text', required: false },
+      { key: '意见内容二', label: '事项二意见', type: 'text', required: false, defaultValue: '原则同意。' },
+      { key: '事项三', label: '分项事项三', type: 'text', required: false },
+      { key: '意见内容三', label: '事项三意见', type: 'text', required: false },
+      { key: '总体要求一', label: '总体要求一', type: 'text', required: true, defaultValue: '严格按照批复意见执行，不得擅自变更。' },
+      { key: '总体要求二', label: '总体要求二', type: 'text', required: false, defaultValue: '执行过程中遇重大问题及时请示报告。' },
+      { key: '意见日期', label: '批复日期', type: 'date', required: true },
+      { key: '意见联系人', label: '批复联系人', type: 'text', required: true },
+      { key: '意见联系电话', label: '联系电话', type: 'text', required: true },
+    ],
+    previewUrl: '/preview/tpl-approval-002',
+    usageCount: 78,
+    isFavorite: false,
+    createdAt: now,
+    updatedAt: now,
+  },
+];
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-05-03T13:39:09.745Z
+            </div>
+        <script src="../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
+    </body>
+</html>
+    
