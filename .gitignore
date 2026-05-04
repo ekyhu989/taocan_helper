@@ -39,5 +39,5 @@ logs/
 *.sqlite
 *.db
 
-# V2.0归档目录（仅在GitHub保存，本地清理）
-docs/09-归档/taocang_helper_v2_文档归档/
+# 归档目录（历史资料，不上传到GitHub）
+docs/09-归档/
