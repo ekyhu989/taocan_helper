@@ -1,0 +1,180 @@
+{
+  "$schema": "https://framework-1258016615.tcloudbaseapp.com/schema/latest.json",
+  "version": "2.0",
+  "projectInfo": {
+    "name": "taocang-helper-v2",
+    "displayName": "智能采购助手V2.0",
+    "projectPath": "e:\\taocang_helper",
+    "version": "2.0.0"
+  },
+  "envId": "taocang-helper-6g9ad4x31a5351d5",
+  "region": "ap-shanghai",
+  "functionRoot": "./cloudbase/functions",
+  "functions": [
+    {
+      "name": "api-gateway",
+      "timeout": 60,
+      "envVariables": {},
+      "runtime": "Nodejs16.13",
+      "memory": 256,
+      "handler": "index.main",
+      "installDependency": true,
+      "ignore": ["node_modules", "node_modules/**/*", "*.log"]
+    }
+  ],
+  "hosting": {
+    "target": "v2.0",
+    "public": "dist",
+    "ignore": ["node_modules/**/*"],
+    "rewrites": [
+      {
+        "source": "^/(?!assets|static|.*\\.[a-zA-Z0-9]+$).*$",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(jpg|jpeg|png|gif|ico)",
+        "headers": [
+          {
+            "key": "Cache-Control", 
+            "value": "max-age=2592000"
+          }
+        ]
+      },
+      {
+        "source": "**/*.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "**/*",
+        "headers": [
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "DENY"
+          },
+          {
+            "key": "X-XSS-Protection",
+            "value": "1; mode=block"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "Strict-Transport-Security",
+            "value": "max-age=31536000; includeSubDomains"
+          }
+        ]
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/scheme",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/product",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "storage": {
+    "rules": [
+      {
+        "prefix": "schemes/",
+        "maxSize": 10485760,
+        "read": true,
+        "write": true
+      },
+      {
+        "prefix": "exports/",
+        "maxSize": 52428800,
+        "read": true,
+        "write": true
+      },
+      {
+        "prefix": "templates/",
+        "maxSize": 1048576,
+        "read": true,
+        "write": false
+      }
+    ]
+  },
+  "environments": {
+    "prod": {
+      "envId": "taocang-prod",
+      "alias": "生产环境",
+      "hosting": {
+        "target": "v2.0-prod"
+      }
+    },
+    "staging": {
+      "envId": "taocang-staging",
+      "alias": "预发布环境",
+      "hosting": {
+        "target": "v2.0-staging"
+      }
+    },
+    "dev": {
+      "envId": "taocang-dev",
+      "alias": "开发环境",
+      "hosting": {
+        "target": "v2.0-dev"
+      }
+    }
+  },
+  "deploy": {
+    "type": "static",
+    "preview": {
+      "timeout": 300
+    },
+    "prod": {
+      "timeout": 600
+    }
+  },
+  "plugins": [
+    {
+      "name": "@cloudbase/framework-plugin-node",
+      "inputs": {
+        "name": "taocang-api",
+        "path": "/api",
+        "functionRoot": "./cloudbase/functions",
+        "functionName": "api-gateway"
+      }
+    },
+    {
+      "name": "@cloudbase/framework-plugin-website",
+      "inputs": {
+        "buildCommand": "npm run build",
+        "outputPath": "dist",
+        "cloudPath": "/",
+        "envVariables": {
+          "VITE_APP_ENV": "production"
+        }
+      }
+    }
+  ]
+}
